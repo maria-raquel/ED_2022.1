@@ -20,6 +20,8 @@ void calc_esfera(float r, float* area, float* volume);
 // Capitulo 3: Vetores
 int negativos (int n, float*vet);
 int pares(int n, int* vet);
-void inverte (int n, int* vet);
+void inverte(int n, int* vet);
+double avalia(double* poli, int grau, double x);
+void deriva(double* poli, int grau, double* out);
 
 #endif

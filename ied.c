@@ -73,7 +73,7 @@ double pi(int n){
 }
 
 /* Calcula as raizes reais de uma equacao de segundo grau do tipo ax^2+bx+c=0
-   e retorna o numero de raizes reais da equacao
+   e retorna o numero de raizes reais
 
    Se existirem raizes reais, elas serao armazanadas nas variaveis apontadas por x1 e x2
 
@@ -139,8 +139,31 @@ int pares(int n, int* vet){
     return counter;
 }
 
+/* Inverte a ordem dos elementos de um vetor
+   -> n: tamanho do vetor
+   -> vet: vetor a ser invertido
+ */
 void inverte (int n, int* vet){
     for(int i=0, j=n-1, temp; i<j; i++, j--){
         temp = vet[i], vet[i] = vet[j], vet[j] = temp;
     }
+}
+
+/* Avalia um polinomio, ou seja, calcula p(x) a partir de um x dado
+   Retorna o valor para p(x)
+   -> poli: vetor com os coeficientes do polinomio
+   por exemplo, para 3x^2 + 2x + 12, poli[] = {12,2,3}
+   -> grau: grau do polinomio
+   -> x: valor de x a ser substituido
+ */
+double avalia(double* poli, int grau, double x){
+    double sum = 0;
+    for (int i=0; i < grau+1; i++)
+        sum += poli[i]*pow(x,i);
+    return sum;
+}
+
+void deriva(double* poli, int grau, double* out){
+    for (int i=1; i < grau+1; i++)
+        out[i-1] = poli[i]*i;
 }
