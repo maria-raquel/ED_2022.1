@@ -51,12 +51,37 @@ int main(){
     // double array4[] = {1,2,3};
     // printf("p(x) = %lf\n", avalia(array4, 2, 1));
 
-    double array5[5] = {3,4,2,5,6}, array5_derivado[4] = {0};
-    deriva(array5, sizeof(array5)/sizeof(double)-1, array5_derivado);
-    puts("Derivado: ");
-    for (int i=0; i < sizeof(array5_derivado)/sizeof(double); i++)
-        printf("%lf ", array5_derivado[i]);
-    putchar('\n');
+    // double array5[] = {3,4,2,5,6}, array5_derivado[4] = {0};
+
+    // deriva(array5, sizeof(array5)/sizeof(double)-1, array5_derivado);
+    
+    // puts("Derivado: ");
+    // for (int i=0; i < sizeof(array5_derivado)/sizeof(double); i++)
+    //     printf("%lf ", array5_derivado[i]);
+    // putchar('\n');
+
+    // char frase[] = "aspas duplas e qualquer coisa";
+    // printf("vogais na frase: %d\n", conta_vogais(frase));
+
+    // char frase2[] = "BOta AlgUma CoISa ai";
+    // minusculo(frase2);
+    // printf("%s\n", frase2);
+
+    // char frase3[] = "ZEBRAS?! zebras <3";
+    // shift_string(frase3);
+    // printf("%s\n", frase3);
+
+    // char frase4[] = "salada com maca", car = 'a';
+    // printf("tem %d %c's na frase\n", conta_char(frase4, car), car);
+
+    // char letras[] = "abc mn xyz ABC MN XYZ";
+    // string_oposta(letras);
+    // puts(letras);
+    // printf("%s\n", letras);
+
+    // char palavra[] = "macacos";
+    // roda_string(palavra);
+    // puts(palavra);
 
     return 0;
 }

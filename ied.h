@@ -24,4 +24,12 @@ void inverte(int n, int* vet);
 double avalia(double* poli, int grau, double x);
 void deriva(double* poli, int grau, double* out);
 
+// Capitulo 5: Cadeias de caracteres
+int conta_vogais(char* str);
+int conta_char(char* str, char c);
+void minusculo(char* str);
+void shift_string(char* str);
+void string_oposta (char* str);
+void roda_string(char* str);
+
 #endif

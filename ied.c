@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdio.h>
 #include "ied.h"
 
 /* Exercicios da Parte I do livro Introdução a 
@@ -152,8 +153,8 @@ void inverte (int n, int* vet){
 /* Avalia um polinomio, ou seja, calcula p(x) a partir de um x dado
    Retorna o valor para p(x)
    -> poli: vetor com os coeficientes do polinomio
-   por exemplo, para 3x^2 + 2x + 12, poli[] = {12,2,3}
-   -> grau: grau do polinomio
+            por exemplo, para 3x^2 + 2x + 12, poli[] = {12,2,3}
+   -> grau: grau do polinomio (tamanho do vetor menos 1)
    -> x: valor de x a ser substituido
  */
 double avalia(double* poli, int grau, double x){
@@ -163,7 +164,91 @@ double avalia(double* poli, int grau, double x){
     return sum;
 }
 
+/* Calcula a derivada de um polinomio
+   -> poli: vetor com os coeficientes do polinomio
+            por exemplo, para 3x^2 + 2x + 12, poli[] = {12,2,3}
+   -> grau: grau do polinomio (tamanho do vetor menos 1)
+   -> out: vetor onde sera armazenado os coeficientes do polinomio
+           resultante da derivacao
+ */
 void deriva(double* poli, int grau, double* out){
     for (int i=1; i < grau+1; i++)
         out[i-1] = poli[i]*i;
+}
+
+/* Retorna o numero de vogais de uma string
+   -> str: string
+ */
+int conta_vogais(char* str){
+    int counter = 0;
+    for (int i=0; str[i] != '\0'; i++){
+        if (str[i] == 'a' || str[i] == 'e' || str[i] == 'i' || str[i] == 'o' || str[i] == 'u')
+            counter++;
+        else if (str[i] == 'A' || str[i] == 'E' || str[i] == 'I' || str[i] == 'O' || str[i] == 'U')
+            counter++;
+    }
+    return counter;
+}
+
+/* Retorna a quantidade de um caractere em uma string
+   -> str: string
+   -> c: caractere
+ */
+int conta_char(char* str, char c){
+    int counter = 0;
+    for (int i=0; str[i] != '\0'; i++)
+            if (str[i] == c)
+                counter++;
+    return counter;
+}
+
+/* Altera todos as letras maiusculas em uma string para minusculas
+   -> str: string a ser alterada
+ */
+void minusculo(char* str){
+    for (int i=0; str[i] != '\0'; i++)
+    // na tabela ASCII, A: 65 e Z: 90
+        if (str[i] > 64 && str[i] < 91) 
+            str[i] += 32; 
+            // para chegar ao equivalente minusculo das letras maiusculas
+}
+
+/* Substitui todas as letras em uma string por sua sucessora no alfabeto
+   Para a letra A, a funcao a substitui pela letra A
+   -> str: string a ser alterada
+ */
+void shift_string(char* str){
+    for (int i=0; str[i] != '\0'; i++)
+        if ((str[i] >= 'A' && str[i] < 'Z') || (str[i] >= 'a' && str[i] < 'z'))
+            str[i]++;
+        else if (str[i] == 'z')
+            str[i] = 'a';
+        else if (str[i] == 'Z')
+            str[i] = 'A';
+}
+
+void string_oposta (char* str){
+    for (int i=0; str[i] != '\0'; i++){
+        if (str[i] >= 'A' && str[i]  <= 'M')
+            str[i] = 'Z' - str[i] + 'A';
+
+        else if (str[i] >= 'a' && str[i]  <= 'm')
+            str[i] = 'z' - str[i] + 'a';
+
+        else if (str[i] >= 'N' && str[i]  <= 'Z')
+            str[i] = 'A' + 'Z' - str[i];
+
+        else if (str[i] >= 'n' && str[i]  <= 'z')
+            str[i] = 'a' + 'z' - str[i];
+    }
+}
+
+void roda_string(char* str){ 
+    char temp1 = str[0], temp2;
+    for (int i=1; str[i] != '\0'; i++){
+        temp2 = str[i];
+        str[i] = temp1;
+        temp1 = temp2;
+    }
+    str[0] = temp1;
 }
