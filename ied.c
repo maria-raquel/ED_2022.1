@@ -1,5 +1,6 @@
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "ied.h"
 
 /* Exercicios da Parte I do livro Introdução a 
@@ -227,6 +228,8 @@ void shift_string(char* str){
             str[i] = 'A';
 }
 
+/* Substitui as letras de uma string pela sua oposta no alfabeto. Exemplo, a vira z, b vira y, etc.
+ */
 void string_oposta (char* str){
     for (int i=0; str[i] != '\0'; i++){
         if (str[i] >= 'A' && str[i]  <= 'M')
@@ -252,3 +255,94 @@ void roda_string(char* str){
     }
     str[0] = temp1;
 }
+
+char* minusculo_v2(char* str){
+    char *new_str;
+    new_str = (char*) malloc(sizeof(str));
+
+    if (!new_str)
+        return 0;
+
+    int i=0;
+    for (; str[i] != '\0'; i++)
+        if (str[i] >= 'A' && str[i] <= 'Z')
+            new_str[i] = str[i] + 32;
+        else 
+            new_str[i] = str[i];
+
+    new_str[i] = '\0';
+
+    return new_str;
+}
+
+char* shift_string_v2(char* str){
+    char *new_str;
+    new_str = (char*) malloc(sizeof(str));
+
+    if (!new_str)
+        return 0;
+
+    int i=0;
+    for (; str[i] != '\0'; i++){
+        if ((str[i] >= 'A' && str[i] <= 'Z') || (str[i] >= 'a' && str[i] <= 'z'))
+            new_str[i] = str[i]+1;
+        else 
+            new_str[i] = str[i];
+
+        if (str[i] == 'Z')
+            new_str[i] = 'A';
+        else if (str[i] == 'z')
+            new_str[i] = 'a';
+    }        
+    
+    new_str[i] = '\0';
+
+    return new_str;
+}
+
+char* string_oposta_v2(char* str){
+    char *new_str;
+    new_str = (char*) malloc(sizeof(str));
+
+    if (!new_str)
+        return 0;
+
+    int i=0;
+    for (; str[i] != '\0'; i++){
+        if (str[i] >= 'A' && str[i]  <= 'M')
+            new_str[i] = 'Z' - str[i] + 'A';
+
+        else if (str[i] >= 'a' && str[i]  <= 'm')
+            new_str[i] = 'z' - str[i] + 'a';
+
+        else if (str[i] >= 'N' && str[i]  <= 'Z')
+            new_str[i] = 'A' + 'Z' - str[i];
+
+        else if (str[i] >= 'n' && str[i]  <= 'z')
+            new_str[i] = 'a' + 'z' - str[i];
+        
+        else 
+            new_str[i] = str[i];
+    }
+
+    new_str[i] = '\0';
+
+    return new_str;    
+}
+
+char* roda_string_v2(char* str){
+    char *new_str;
+    new_str = (char*) malloc(sizeof(str));
+
+    if (!new_str)
+        return 0;
+
+    int i=0;
+    for(; str[i+1] != '\0'; i++)
+        new_str[i+1] = str[i];
+    new_str[0] = str[i];
+    new_str[i+1] = '\0';
+
+    return new_str;
+}
+

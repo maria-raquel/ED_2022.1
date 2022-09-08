@@ -31,5 +31,9 @@ void minusculo(char* str);
 void shift_string(char* str);
 void string_oposta (char* str);
 void roda_string(char* str);
+char* minusculo_v2(char* str);
+char* shift_string_v2(char* str);
+char* string_oposta_v2(char* str);
+char* roda_string_v2(char* str);
 
 #endif
