@@ -229,8 +229,19 @@ void shift_string(char* str){
 }
 
 /* Substitui as letras de uma string pela sua oposta no alfabeto. Exemplo, a vira z, b vira y, etc.
+   Caracteres que nao sao letras permanecem inalterados
+   -> str: string a ser alterada
  */
 void string_oposta (char* str){
+
+    /* Dada um caractere ch1, entre A e M, e seu oposto ch2, entre N e Z, a distancia de A a ch1 é
+       igual a distancia de ch2 a Z.
+       
+       A - ch1 = ch2 - Z
+       
+       Baseado nisso, faremos as atribuicoes
+     */
+
     for (int i=0; str[i] != '\0'; i++){
         if (str[i] >= 'A' && str[i]  <= 'M')
             str[i] = 'Z' - str[i] + 'A';
@@ -246,16 +257,26 @@ void string_oposta (char* str){
     }
 }
 
+/* Desloca todos os caracteres de uma string uma posicao para a direita
+   Por exemplo, a string "casa" se torna "acas"
+   -> str: string a ser alterada
+ */
 void roda_string(char* str){ 
-    char temp1 = str[0], temp2;
+    char temp1 = str[0], temp2;              // armazena o primeiro caractere na variavel temp1
     for (int i=1; str[i] != '\0'; i++){
-        temp2 = str[i];
-        str[i] = temp1;
-        temp1 = temp2;
-    }
+        temp2 = str[i];          // armazena o proximo caractere na variavel temp2
+        str[i] = temp1;          // string recebe o caractere i-1 na posicao i
+        temp1 = temp2;           // temp1 recebe temp2, o caractere atual, na posicao i 
+    }                            //       a ser adicionado na proxima iteracao, na posicao i+1
     str[0] = temp1;
 }
 
+/* As proximas funcoes sao reimplementacoes das funcoes minusculo, shift_string, string_oposta
+   e roda_string, desta vez, em vez de alterarem a string original, elas retornarao uma 
+   string nova
+ */
+
+// Altera todos as letras maiusculas em uma string para minusculas
 char* minusculo_v2(char* str){
     char *new_str;
     new_str = (char*) malloc(sizeof(str));
@@ -275,6 +296,7 @@ char* minusculo_v2(char* str){
     return new_str;
 }
 
+// Substitui todas as letras em uma string por sua sucessora no alfabeto
 char* shift_string_v2(char* str){
     char *new_str;
     new_str = (char*) malloc(sizeof(str));
@@ -284,15 +306,14 @@ char* shift_string_v2(char* str){
 
     int i=0;
     for (; str[i] != '\0'; i++){
-        if ((str[i] >= 'A' && str[i] <= 'Z') || (str[i] >= 'a' && str[i] <= 'z'))
+        if ((str[i] >= 'A' && str[i] < 'Z') || (str[i] >= 'a' && str[i] < 'z'))
             new_str[i] = str[i]+1;
-        else 
-            new_str[i] = str[i];
-
-        if (str[i] == 'Z')
+        else if (str[i] == 'Z')
             new_str[i] = 'A';
         else if (str[i] == 'z')
             new_str[i] = 'a';
+        else 
+            new_str[i] = str[i];
     }        
     
     new_str[i] = '\0';
@@ -300,6 +321,7 @@ char* shift_string_v2(char* str){
     return new_str;
 }
 
+// Substitui as letras de uma string pela sua oposta no alfabeto
 char* string_oposta_v2(char* str){
     char *new_str;
     new_str = (char*) malloc(sizeof(str));
@@ -330,6 +352,7 @@ char* string_oposta_v2(char* str){
     return new_str;    
 }
 
+// Desloca todos os caracteres de uma string uma posicao para a direita
 char* roda_string_v2(char* str){
     char *new_str;
     new_str = (char*) malloc(sizeof(str));
@@ -345,4 +368,3 @@ char* roda_string_v2(char* str){
 
     return new_str;
 }
-
