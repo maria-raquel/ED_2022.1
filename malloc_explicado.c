@@ -33,9 +33,12 @@ void main(){
     printf("-->free(p);\n");
     printf("Valor de p: %p\n", p);
     printf("O ponteiro continua existindo, mesmo após a liberacao da memoria\n");
-    printf("Valor apontado por p: %d\n", *p);
-    printf("Nao temos mais controle sobre o conteudo para o qual ele aponta\n");
 
+    printf("Valor apontado por p: %d\n", *p);
+    printf("A memoria liberada pode ser usada por outros programas\n");
+
+    *p = 10;
     printf("-->*p = 10;\n");
     printf("Valor apontado por p: %d\n", *p);
+    printf("Estamos mexendo em memoria que nao esta alocada para nosso programa, pode ser perigoso\n");
 }
