@@ -7,8 +7,6 @@ typedef struct{     // definindo um tipo Pessoa, usaremos apenas na questao 3
     int idade;
 } Pessoa;
 
-int people_sorter(Pessoa *a, Pessoa *b);
-
 int main(){
 
 	// Questao 1: ler nome e idade de n pessoas e guardar os dados em um arquivo de texto
@@ -109,25 +107,20 @@ int main(){
 	int menor; // indice do nome "menor" na tabela ascii
 
 	for (int i=0; i<n; i++){
-		menor = i;
 		for (int j=0; j<n; j++){ // percorre todos os elementos, para achar o menor
-			if (strcmp(people[menor].nome, people[j].nome) > 0){
-				continue;
+			if (strcmp(people[i].nome, people[j].nome) < 0){
+				char* temp = people[i].nome;
+				people[i].nome = people[j].nome; 
+				people[j].nome = temp;
 			}
-			if (strcmp(people[menor].nome, people[j].nome) < 0){
-				menor = j;
-				continue;
+			if (strcmp(people[i].nome, people[j].nome) == 0){ 
+				// desempate será por idade
+				if (people[i].idade > people[j].idade){
+					char* temp = people[i].nome;
+					people[i].nome = people[j].nome; 
+					people[j].nome = temp;
+				}
 			}
-			else // quando os nomes forem iguais, ordenaremos por idade
-				if (people[menor].idade < people[j].idade)
-					menor = j;
-		}
-		if (menor == i)
-			continue;
-		else {
-			char* temp = people[i].nome; // variavel temporaria recebe conteudo no indice i
-			people[i].nome = people[menor].nome; // indice i recebe o menor nome
-			people[menor].nome = temp; // a antiga posicao do menor recebe temp
 		}
 	}
 
