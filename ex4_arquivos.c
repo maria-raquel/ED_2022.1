@@ -104,10 +104,8 @@ int main(){
 		str1 for MAIOR que o de str27 (str1 > str2)
 	*/
 
-	int menor; // indice do nome "menor" na tabela ascii
-
 	for (int i=0; i<n; i++){
-		for (int j=0; j<n; j++){ // percorre todos os elementos, para achar o menor
+		for (int j=0; j<n; j++){
 			if (strcmp(people[i].nome, people[j].nome) < 0){
 				char* temp = people[i].nome;
 				people[i].nome = people[j].nome; 
