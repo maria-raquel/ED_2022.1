@@ -151,6 +151,8 @@ void remove_(No** ll, int n){
     if(aux->dado == n){ // quando o elemento a ser removido é o primeiro
         *ll = (*ll)->prox;
         free(aux);
+        puts("\nRemovido!\n");
+        return;
     }
 
     for(; aux->prox; aux = aux->prox){
