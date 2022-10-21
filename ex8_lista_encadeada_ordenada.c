@@ -137,16 +137,18 @@ void remove_(No** ll, int n){
         return;
     }
 
+    No* aux = *ll;
+
     if(!(*ll)->prox){ // lista unitária
         if((*ll)->dado == n){
-            limpa(ll);
+            *ll = NULL;
+            free(aux);
+            puts("\nRemovido!\n");
             return;
         }
-        printf("\n%d não está na lista!\n", n);
+        printf("\n%d não está na lista!\n\n", n);
         return;
     }
-
-    No* aux = *ll;
 
     if(aux->dado == n){ // quando o elemento a ser removido é o primeiro
         *ll = (*ll)->prox;
