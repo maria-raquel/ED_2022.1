@@ -202,6 +202,6 @@ void menu(No **ll){
 
         default: puts("\nValor invalido! Selecione um número entre 1 e 6.\n");
                 break;
-        }
-    menu(ll);
     }
+    menu(ll);
+}
