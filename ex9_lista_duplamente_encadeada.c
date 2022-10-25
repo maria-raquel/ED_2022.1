@@ -7,13 +7,13 @@ typedef struct No{
     struct No* prox;
 } No;
 
-void cria_lista(No** ll); //ok
-void insere_inicio(No **ll, int n); //ok
-void insere_fim(No **ll, int n); //ok
-void limpa_lista(No** ll); // ok
-void mostra_lista(No** ll); //ok
-void mostra_lista_ao_contrario(No** ll); //ok
-void menu(No **ll); //ok
+void cria_lista(No** ll);
+void insere_inicio(No **ll, int n);
+void insere_fim(No **ll, int n);
+void limpa_lista(No** ll);
+void mostra_lista(No** ll);
+void mostra_lista_ao_contrario(No** ll);
+void menu(No **ll);
 void remove_inicio(No **ll);
 void remove_fim(No **ll);
 
