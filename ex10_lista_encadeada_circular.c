@@ -99,6 +99,7 @@ void limpa_lista(No** ll){
         }
         free(aux_free);
     }
+    
     free(aux_1no);
     puts("\nLista limpa!\n");
 }
@@ -137,7 +138,7 @@ void menu(No **ll){
         case 4: remove_inicio(ll);
                 break;        
         
-        case 5: //remove_fim(ll);
+        case 5: remove_fim(ll);
                 break;
 
         case 6: limpa_lista(ll);
@@ -185,4 +186,25 @@ void remove_inicio(No **ll){
     (*ll) = aux_1_no->prox;
     free(aux_1_no);
     puts("\nRemovido!\n");
+}
+
+void remove_fim(No **ll){
+    if(!(*ll)){
+        puts("\nLista vazia!\n");
+        return;
+    }
+
+    No* aux = (*ll);
+
+    if(aux->prox == (*ll)){
+        (*ll) = NULL;
+        free(aux);
+        puts("\nRemovido!\n");
+        return;
+    }
+
+    for(; aux->prox->prox != (*ll); aux = aux->prox);
+    No* aux_free = aux->prox;
+    aux->prox = (*ll);
+    free(aux_free);
 }
