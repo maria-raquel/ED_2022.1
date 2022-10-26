@@ -6,13 +6,14 @@ typedef struct No{
     struct No* prox;
 } No;
 
-void cria_pilha(No** pp); //ok
+void cria_pilha(No** pp); 
 void limpa_pilha(No** pp);
 void menu(No** pp);
-void mostra_pilha(No** pp);
-void mostra_topo(No** pp); //ok ?
-void pop(No** pp); // ok ?
-void push(No** pp, int n); // ok ?
+void mostra_pilha(No* p);
+void mostra_pilha_ao_contrario(No* p);
+void mostra_topo(No** pp);
+void pop(No** pp); 
+void push(No** pp, int n); 
 
 int main(){
     No* pilha;
@@ -27,11 +28,21 @@ void cria_pilha(No** pp){
 
 void mostra_topo(No** pp){
     if(!*pp){
-        puts("(vazia)");
+        puts("( )");
         return;
     }
 
     printf("(%d)\n", (*pp)->dado);
+}
+
+void limpa_pilha(No** pp){
+    if(!(*pp))
+        return;
+    
+    No* aux = (*pp)->prox;
+    free(*pp);
+    (*pp) = NULL;
+    limpa_pilha(&aux);
 }
 
 void menu(No** pp){
@@ -39,6 +50,9 @@ void menu(No** pp){
     puts("  1: mostrar o topo da pilha");
     puts("  2: inserir um novo topo na pilha (push)");
     puts("  3: remover o topo da pilha (pop)");
+    puts("  4: mostrar a pilha inteira");
+    puts("  5: limpar a pilha");
+    puts("  6: mostrar a pilha inteira ao contrário");
     puts("  -1: encerrar");
 
     int escolha;
@@ -63,14 +77,48 @@ void menu(No** pp){
         pop(pp);
         break;
     
+    case 4:
+        puts("\nPilha:");
+        printf("( ");
+        mostra_pilha(*pp);
+        printf(")\n\n");
+        break;
+
+    case 5:
+        limpa_pilha(pp);
+        puts("\nPilha limpa\n");
+        break;
+
+    case 6:
+        puts("\nPilha ao contrário:");
+        printf("( ");
+        mostra_pilha_ao_contrario(*pp);
+        printf(")\n\n");
+        break;
+    
     case -1:
         return;
     
     default:
-        puts("\nValor invalido! Selecione um número entre 1 e 3\n");
+        puts("\nValor invalido! Selecione um número entre 1 e 6\n");
         break;
     }
     menu(pp);
+}
+
+void mostra_pilha(No* p){
+    if(!p)
+        return;
+    
+    printf("%d ", p->dado);
+    mostra_pilha(p->prox);
+}
+
+void mostra_pilha_ao_contrario(No* p){
+    if (p){
+        mostra_pilha_ao_contrario(p->prox);
+        printf("%d ", p->dado);
+    }
 }
 
 void push(No** pp, int n){
