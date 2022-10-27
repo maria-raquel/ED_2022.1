@@ -1,11 +1,16 @@
+///////////////////////////////////////////////////
+///////////////// LISTA ENCADEADA /////////////////
+///////// definição e implementação da ED /////////
+///////////////////////////////////////////////////
+
 #include <stdio.h>
 #include <stdlib.h>
 
 // a lista é um ponteiro para o primeiro nó
 // cada nó é do tipo a seguir
-typedef struct no{
+typedef struct No{
     int dado; // informação armazenada
-    struct no *prox; // ponteiro para próximo nó
+    struct No *prox; // ponteiro para próximo nó
 } No;
 
 // nas funções, ll é ponteiro para a lista
@@ -17,16 +22,19 @@ void cria_lista(No** ll);
 void limpa_lista(No** ll);
 // faz o ponteiro lista ser nulo e libera a memória alocada para cada nó
 
-void mostra_lista(No** ll);
-void menu(No **ll);
-
 void insere_inicio(No **ll, int n);
 void insere_fim(No **ll, int n);
 // cria, preenche e insere o novo nó
 
+void menu(No **ll);
+void mostra_lista(No** ll);
+
 void remove_inicio(No **ll);
 void remove_fim(No **ll);
 // remove da lista e dá free no nó
+
+int comprimento(No* l);
+// retorna o comprimento da lista
 
 int main(){
     No *lista; 
@@ -165,6 +173,7 @@ void menu(No **ll){
     puts("4: remover elemento no início da lista");
     puts("5: remover elemento no fim da lista");
     puts("6: limpar a lista");
+    puts("7: mostrar o comprimento da lista");
     puts("-1: encerrar");
 
     int escolha;
@@ -195,13 +204,25 @@ void menu(No **ll){
                 break;
 
         case 6: limpa_lista(ll);
-                puts("lista limpa!\n");
+                puts("Lista limpa!\n");
+                break;
+        
+        case 7: printf("\nComprimento: %d\n\n", comprimento(*ll));
                 break;
 
         case -1: return;
 
-        default: puts("\nValor invalido! Selecione um número entre 1 e 6.\n");
+        default: puts("\nValor inválido! Selecione um número entre 1 e 7.\n");
                 break;
     }
     menu(ll);
+}
+
+int comprimento(No* l){
+    int count = 0;
+
+    for(No* aux = l; aux; aux = aux->prox)
+        count++;
+
+    return count;
 }
