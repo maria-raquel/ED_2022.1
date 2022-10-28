@@ -19,12 +19,21 @@ typedef struct No{
 void cria_lista(No** ll);
 // faz o ponteiro lista ser nulo
 
+int comprimento(No* l);
+// retorna o comprimento da lista
+
+void concatena(No** ll1, No** ll2);
+// concatena duas listas, a lista 2 é adicionada ao fim da lista 1
+
 void limpa_lista(No** ll);
 // faz o ponteiro lista ser nulo e libera a memória alocada para cada nó
 
 void insere_inicio(No **ll, int n);
 void insere_fim(No **ll, int n);
 // cria, preenche e insere o novo nó
+
+int maiores(No* l, int n);
+// retorna quantos elementos da lista são maiores que n
 
 void menu(No **ll);
 void mostra_lista(No** ll);
@@ -33,13 +42,21 @@ void remove_inicio(No **ll);
 void remove_fim(No **ll);
 // remove da lista e dá free no nó
 
-int comprimento(No* l);
-// retorna o comprimento da lista
-
 int main(){
-    No *lista; 
-    cria_lista(&lista);
-    menu(&lista);
+    No *lista1; 
+    cria_lista(&lista1);
+    puts("\n///// LISTA 1 /////\n");
+    menu(&lista1);
+
+    No *lista2;
+    cria_lista(&lista2);
+    puts("\n///// LISTA 2 /////\n");
+    menu(&lista2);
+
+    concatena(&lista1, &lista2);
+    puts("\n///// LISTAS CONCATENADAS /////\n");
+    mostra_lista(&lista1);
+
     return 0;
 }
 
@@ -48,19 +65,13 @@ void cria_lista(No** ll){
     return;
 }
 
-void limpa_lista(No** ll){
-    No* aux_free = *ll; // vai liberar a memoria de cada nó
-    No* aux_proximo = (*ll)->prox; // vai salvar o endereço do próximo nó a ser liberado
-    
-    *ll = 0;
+int comprimento(No* l){
+    int count = 0;
 
-    for(; aux_proximo;){
-        free(aux_free);
-        aux_free = aux_proximo;
-        aux_proximo = aux_proximo->prox;
-    }
+    for(No* aux = l; aux; aux = aux->prox)
+        count++;
 
-    free(aux_free);
+    return count;
 }
 
 void insere_inicio(No**ll, int n){
@@ -113,6 +124,105 @@ void insere_fim(No**ll, int n){
     puts("\nInserido!\n");
 }
 
+void limpa_lista(No** ll){
+    No* aux_free = *ll; // vai liberar a memoria de cada nó
+    No* aux_proximo = (*ll)->prox; // vai salvar o endereço do próximo nó a ser liberado
+    
+    *ll = 0;
+
+    for(; aux_proximo;){
+        free(aux_free);
+        aux_free = aux_proximo;
+        aux_proximo = aux_proximo->prox;
+    }
+
+    free(aux_free);
+}
+
+int maiores(No* l, int n){
+    int count = 0;
+
+    for(No* aux = l; aux; aux = aux->prox)
+        if (aux->dado > n)
+            count++;
+    
+    return count;
+}
+
+void menu(No **ll){
+    puts("Digite o que deseja fazer:");
+    puts("1: mostrar a lista");
+    puts("2: inserir elemento no início da lista");
+    puts("3: inserir elemento no fim da lista");
+    puts("4: remover elemento no início da lista");
+    puts("5: remover elemento no fim da lista");
+    puts("6: limpar a lista");
+    puts("7: mostrar o comprimento da lista");
+    puts("8: quantos elementos são maiores que um número n");
+    puts("-1: encerrar");
+
+    int escolha;
+    scanf("%d", &escolha);
+
+    int n = 0;
+
+    switch (escolha) {
+        case 1: puts("\nSua lista: ");
+                mostra_lista(ll);
+                putchar('\n');
+                break;
+
+        case 2: puts("Que elemento deseja inserir? ");
+                scanf("%d", &n);
+                insere_inicio(ll, n);
+                break;
+
+        case 3: puts("Que elemento deseja inserir? ");
+                scanf("%d", &n);
+                insere_fim(ll, n);
+                break;
+
+        case 4: remove_inicio(ll);
+                break;        
+        
+        case 5: remove_fim(ll);
+                break;
+
+        case 6: limpa_lista(ll);
+                puts("Lista limpa!\n");
+                break;
+        
+        case 7: printf("\nComprimento: %d\n\n", comprimento(*ll));
+                break;
+
+        case 8: puts("Que número? ");
+                scanf("%d", &n);
+                printf("\n%d elementos são maiores que %d\n\n", maiores(*ll, n), n);
+                break;
+
+        case -1: return;
+
+        default: puts("\nValor inválido! Selecione um número entre 1 e 8.\n");
+                break;
+    }
+    menu(ll);
+}
+
+void mostra_lista(No** ll){
+    if (!(*ll)){
+        puts("(vazia)");
+        return;
+    }
+
+    printf("(");
+
+    No* aux = *ll;
+    for(; aux->prox; aux = aux->prox)
+        printf("%d, ", aux->dado);
+
+    printf("%d)\n", aux->dado);
+}
+
 void remove_inicio(No **ll){
     if(!(*ll)){
         puts("\nLista vazia!\n");
@@ -150,79 +260,14 @@ void remove_fim(No **ll){
     puts("\nRemovido!\n");
 }
 
-void mostra_lista(No** ll){
-    if (!(*ll)){
-        puts("(vazia)");
+void concatena(No** ll1, No** ll2){
+    if (!(*ll1)){
+        *ll1 = *ll2;
         return;
     }
 
-    printf("(");
-
-    No* aux = *ll;
-    for(; aux->prox; aux = aux->prox)
-        printf("%d, ", aux->dado);
-
-    printf("%d)\n", aux->dado);
-}
-
-void menu(No **ll){
-    puts("Digite o que deseja fazer:");
-    puts("1: mostrar a lista");
-    puts("2: inserir elemento no início da lista");
-    puts("3: inserir elemento no fim da lista");
-    puts("4: remover elemento no início da lista");
-    puts("5: remover elemento no fim da lista");
-    puts("6: limpar a lista");
-    puts("7: mostrar o comprimento da lista");
-    puts("-1: encerrar");
-
-    int escolha;
-    scanf("%d", &escolha);
-
-    int n = 0;
-
-    switch (escolha) {
-        case 1: puts("\nSua lista: ");
-                mostra_lista(ll);
-                putchar('\n');
-                break;
-
-        case 2: puts("Que elemento deseja inserir? ");
-                scanf("%d", &n);
-                insere_inicio(ll, n);
-                break;
-
-        case 3: puts("Que elemento deseja inserir? ");
-                scanf("%d", &n);
-                insere_fim(ll, n);
-                break;
-
-        case 4: remove_inicio(ll);
-                break;        
-        
-        case 5: remove_fim(ll);
-                break;
-
-        case 6: limpa_lista(ll);
-                puts("Lista limpa!\n");
-                break;
-        
-        case 7: printf("\nComprimento: %d\n\n", comprimento(*ll));
-                break;
-
-        case -1: return;
-
-        default: puts("\nValor inválido! Selecione um número entre 1 e 7.\n");
-                break;
-    }
-    menu(ll);
-}
-
-int comprimento(No* l){
-    int count = 0;
-
-    for(No* aux = l; aux; aux = aux->prox)
-        count++;
-
-    return count;
+    No* aux = (*ll1);
+    for(; aux->prox; aux = aux->prox);
+    
+    aux->prox = (*ll2);
 }
