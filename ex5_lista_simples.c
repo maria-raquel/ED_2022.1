@@ -1,7 +1,10 @@
+///////////////////////////////////////////////////
+////////////////// LISTA SIMPLES //////////////////
+///////// definição e implementação da ED /////////
+///////////////////////////////////////////////////
+
 #include <stdio.h>
 #define N 10
-
-// LISTA SIMPLES
 
 // definicao da lista
 typedef struct{
@@ -15,19 +18,16 @@ typedef struct{
 void cria_lista (Lista *l);
 int insere_fim (Lista *l);
 void limpa_lista (Lista *l);
-int remove_fim (Lista *l);
-int mostra_lista(Lista *l);
 int menu(Lista *l);
+int mostra_lista(Lista *l);
+int remove_fim (Lista *l);
 
-// main
 int main(){
     Lista lista;
     cria_lista(&lista);
     menu(&lista);
     return 0;
 }
-
-// implementacao das funcoes
 
 void cria_lista (Lista *l){
     l->ctrl = -1;
@@ -59,6 +59,7 @@ int remove_fim (Lista *l){
         putchar('\n');
     }
     l->ctrl--;
+    return 1;
 }
 
 int mostra_lista(Lista *l){
