@@ -28,8 +28,8 @@ void concatena(No** ll1, No** ll2);
 void limpa_lista(No** ll);
 // faz o ponteiro lista ser nulo e libera a memória alocada para cada nó
 
-void insere_inicio(No **ll, int n);
-void insere_fim(No **ll, int n);
+void insere_inicio(No** ll, int n);
+void insere_fim(No** ll, int n);
 // cria, preenche e insere o novo nó
 
 int maiores(No* l, int n);
@@ -38,9 +38,12 @@ int maiores(No* l, int n);
 void menu(No **ll);
 void mostra_lista(No** ll);
 
-void remove_inicio(No **ll);
-void remove_fim(No **ll);
+void remove_inicio(No** ll);
+void remove_fim(No** ll);
 // remove da lista e dá free no nó
+
+void remove_n(No** ll,int n);
+// remove todas as instâncias de um elemento da lista
 
 int main(){
     No *lista1; 
@@ -57,6 +60,9 @@ int main(){
     puts("\n///// LISTAS CONCATENADAS /////\n");
     mostra_lista(&lista1);
 
+    limpa_lista(&lista1); // para desalocar a memória
+    limpa_lista(&lista2);
+
     return 0;
 }
 
@@ -72,6 +78,18 @@ int comprimento(No* l){
         count++;
 
     return count;
+}
+
+void concatena(No** ll1, No** ll2){
+    if (!(*ll1)){
+        *ll1 = *ll2;
+        return;
+    }
+
+    No* aux = (*ll1);
+    for(; aux->prox; aux = aux->prox);
+    
+    aux->prox = (*ll2);
 }
 
 void insere_inicio(No**ll, int n){
@@ -125,6 +143,11 @@ void insere_fim(No**ll, int n){
 }
 
 void limpa_lista(No** ll){
+    if(!(*ll)){
+        puts("\nLista vazia!\n");
+        return;
+    }
+
     No* aux_free = *ll; // vai liberar a memoria de cada nó
     No* aux_proximo = (*ll)->prox; // vai salvar o endereço do próximo nó a ser liberado
     
@@ -158,7 +181,8 @@ void menu(No **ll){
     puts("5: remover elemento no fim da lista");
     puts("6: limpar a lista");
     puts("7: mostrar o comprimento da lista");
-    puts("8: quantos elementos são maiores que um número n");
+    puts("8: quantos elementos são maiores que um número dado");
+    puts("9: remover todos as instâncias de um número dado");
     puts("-1: encerrar");
 
     int escolha;
@@ -199,10 +223,15 @@ void menu(No **ll){
                 scanf("%d", &n);
                 printf("\n%d elementos são maiores que %d\n\n", maiores(*ll, n), n);
                 break;
+        
+        case 9: puts("Que número? ");
+                scanf("%d", &n);
+                remove_n(ll, n);
+                break;
 
         case -1: return;
 
-        default: puts("\nValor inválido! Selecione um número entre 1 e 8.\n");
+        default: puts("\nValor inválido! Selecione um número entre 1 e 9.\n");
                 break;
     }
     menu(ll);
@@ -260,14 +289,35 @@ void remove_fim(No **ll){
     puts("\nRemovido!\n");
 }
 
-void concatena(No** ll1, No** ll2){
-    if (!(*ll1)){
-        *ll1 = *ll2;
+void remove_n(No** ll,int n){
+    if (!(*ll)){
+        puts("\nLista vazia!\n");
         return;
     }
 
-    No* aux = (*ll1);
-    for(; aux->prox; aux = aux->prox);
+    // caso o primeiro elemento seja n,
+    // retiramos até que seja diferente de n
+    No* aux = (*ll);
+    for (; aux && aux->dado == n;){
+        (*ll) = aux->prox;
+        free(aux);
+        aux = (*ll);
+    }
+
+    // se o loop anterior limpar a lista inteira (todos os elementos são n)
+    if(!(*ll)){
+        puts("\nRemovidos!\n");
+        return;
+    }
+
+    for(; aux && aux->prox; aux = aux->prox){
+        // usamos o loop para remover instâncias seguidas de n
+        for (; aux && aux->prox && aux->prox->dado == n;){
+            No* remove = aux->prox;
+            aux->prox = remove->prox;
+            free(remove);
+        }
+    }
     
-    aux->prox = (*ll2);
+    puts("\nRemovidos!\n");
 }
