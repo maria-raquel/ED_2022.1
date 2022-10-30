@@ -36,6 +36,9 @@ void insere_inicio(No** ll, int n);
 void insere_fim(No** ll, int n);
 // cria, preenche e insere o novo nó
 
+void inverte(No** ll);
+// inverte a lista, (1 2 3 4) vira (4 3 2 1)
+
 int maiores(No* l, int n);
 // retorna quantos elementos da lista são maiores que n
 
@@ -207,6 +210,7 @@ void menu(No **ll){
         puts("9: remover todos as instâncias de um número dado");
         puts("10: mostrar o último elemento da lista");
         puts("11: separar a lista em duas");
+        puts("12: inverter a lista");
         puts("0: encerrar");
 
         scanf("%d", &escolha);
@@ -237,7 +241,7 @@ void menu(No **ll){
                     break;
 
             case 6: limpa_lista(ll);
-                    puts("Lista limpa!\n");
+                    puts("\nLista limpa!\n");
                     break;
             
             case 7: printf("\nComprimento: %d\n\n", comprimento(*ll));
@@ -272,9 +276,15 @@ void menu(No **ll){
                      limpa_lista(&aux); // pra desalocar a memória
                      break;
 
+            case 12: puts("\nLista invertida: ");
+                     inverte(ll);
+                     mostra_lista(ll);
+                     putchar('\n');
+                     break;
+
             case 0: return;
 
-            default: puts("\nValor inválido! Selecione um número entre 1 e 9.\n");
+            default: puts("\nValor inválido! Selecione um número entre 1 e 12.\n");
                     break;
         }
     } while (escolha);
@@ -466,4 +476,24 @@ No* ultimo(No* l){
     if (ultimo)
         for(; ultimo->prox; ultimo = ultimo->prox);
     return ultimo;
+}
+
+void inverte(No** ll){
+    if(!(*ll))
+        return;
+
+    No *aux, *aux_ante, *aux_prox;
+    aux = (*ll);
+    aux_prox = aux->prox;
+    aux_ante = NULL;
+
+    while(aux_prox){
+        aux->prox = aux_ante;
+        aux_ante = aux;
+        aux = aux_prox;
+        aux_prox = aux->prox;
+    }
+
+    aux->prox = aux_ante;
+    (*ll) = aux;
 }
