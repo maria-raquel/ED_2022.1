@@ -32,6 +32,9 @@ void concatena(No** ll1, No** ll2);
 void limpa_lista(No** ll);
 // faz o ponteiro lista ser nulo e libera a memória alocada para cada nó
 
+int igual(No* l1, No* l2);
+// retorna 1 se as listas forem iguais, 0 se forem diferentes;
+
 void insere_inicio(No** ll, int n);
 void insere_fim(No** ll, int n);
 // cria, preenche e insere o novo nó
@@ -166,6 +169,26 @@ void insere_fim(No**ll, int n){
     puts("\nInserido!\n");
 }
 
+void inverte(No** ll){
+    if(!(*ll))
+        return;
+
+    No *aux, *aux_ante, *aux_prox;
+    aux = (*ll);
+    aux_prox = aux->prox;
+    aux_ante = NULL;
+
+    while(aux_prox){
+        aux->prox = aux_ante;
+        aux_ante = aux;
+        aux = aux_prox;
+        aux_prox = aux->prox;
+    }
+
+    aux->prox = aux_ante;
+    (*ll) = aux;
+}
+
 void limpa_lista(No** ll){
     if(!(*ll)){
         return;
@@ -297,6 +320,7 @@ void menu2(No **ll1, No** ll2){
         puts("1: mostrar as listas");
         puts("2: concatenar as listas");
         puts("3: mergir as listas");
+        puts("4: verificar se as listas são iguais");
         puts("0: encerrar");
 
         scanf("%d", &escolha);
@@ -319,7 +343,12 @@ void menu2(No **ll1, No** ll2){
                     puts("\nListas mergidas: ");
                     mostra_lista(ll1);
                     putchar('\n');
-
+                    break;
+            
+            case 4: if (igual(*ll1, *ll2))
+                        puts("\nAs listas são iguais!\n");
+                    else
+                        puts("\nAs listas são diferentes");                    
                     break;
 
             case 0: return;
@@ -478,22 +507,28 @@ No* ultimo(No* l){
     return ultimo;
 }
 
-void inverte(No** ll){
-    if(!(*ll))
-        return;
+int igual(No* l1, No* l2){
+    if (!l1 && !l2) // se s duas forem vazias
+        return 1;
 
-    No *aux, *aux_ante, *aux_prox;
-    aux = (*ll);
-    aux_prox = aux->prox;
-    aux_ante = NULL;
+    if (!l1 || !l2) // se uma for vazia e a outra não
+        return 0;
 
-    while(aux_prox){
-        aux->prox = aux_ante;
-        aux_ante = aux;
-        aux = aux_prox;
-        aux_prox = aux->prox;
+    No *aux1, *aux2;
+    aux1 = l1;
+    aux2 = l2;
+
+    while (aux1 && aux2){
+        if (aux1->dado != aux2->dado)
+            return 0;
+        aux1 = aux1->prox;
+        aux2 = aux2->prox;
     }
 
-    aux->prox = aux_ante;
-    (*ll) = aux;
+    // se ambos auxs forem nulos, a lista inteira foi percorrida
+    // se um não for nulo, uma das listas é maior que a outra, portanto não são iguais
+    if (!aux1 && !aux2)
+        return 1;
+    else
+        return 0;
 }
