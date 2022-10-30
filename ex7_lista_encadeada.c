@@ -13,6 +13,10 @@ typedef struct No{
     struct No *prox; // ponteiro para próximo nó
 } No;
 
+// FUNÇÕES IMPLEMENTADAS:
+// Algumas são funções mais básicas, mais necessárias,
+// outras são exercícios do livro Introdução a Estruturas de Dados, de Celes, Cerqueira e Rangel
+
 // nas funções, ll é ponteiro para a lista
 // quando quiser usar a lista (o ponteiro para o primeiro elemento) na função, usar *ll
 
@@ -36,6 +40,11 @@ int maiores(No* l, int n);
 // retorna quantos elementos da lista são maiores que n
 
 void menu(No **ll);
+void menu2(No **ll1, No** ll2);
+
+void merge(No** ll1, No** ll2);
+// junta as duas listas, intercalando os nós
+
 void mostra_lista(No** ll);
 
 void remove_inicio(No** ll);
@@ -44,6 +53,13 @@ void remove_fim(No** ll);
 
 void remove_n(No** ll,int n);
 // remove todas as instâncias de um elemento da lista
+
+No* separa(No** ll, int n);
+// separa uma lista em duas, depois da primeira ocorrencia de um elemento passado
+// retorna o ponteiro para a segunda lista
+
+No* ultimo(No* l);
+// retorna um ponteiro para o último elemento da lista
 
 int main(){
     No *lista1; 
@@ -56,9 +72,8 @@ int main(){
     puts("\n///// LISTA 2 /////\n");
     menu(&lista2);
 
-    concatena(&lista1, &lista2);
-    puts("\n///// LISTAS CONCATENADAS /////\n");
-    mostra_lista(&lista1);
+    puts("\n///// LISTAS 1 E 2 /////\n");
+    menu2(&lista1, &lista2);
 
     limpa_lista(&lista1); // para desalocar a memória
     limpa_lista(&lista2);
@@ -144,7 +159,6 @@ void insere_fim(No**ll, int n){
 
 void limpa_lista(No** ll){
     if(!(*ll)){
-        puts("\nLista vazia!\n");
         return;
     }
 
@@ -173,68 +187,131 @@ int maiores(No* l, int n){
 }
 
 void menu(No **ll){
-    puts("Digite o que deseja fazer:");
-    puts("1: mostrar a lista");
-    puts("2: inserir elemento no início da lista");
-    puts("3: inserir elemento no fim da lista");
-    puts("4: remover elemento no início da lista");
-    puts("5: remover elemento no fim da lista");
-    puts("6: limpar a lista");
-    puts("7: mostrar o comprimento da lista");
-    puts("8: quantos elementos são maiores que um número dado");
-    puts("9: remover todos as instâncias de um número dado");
-    puts("-1: encerrar");
-
     int escolha;
-    scanf("%d", &escolha);
+    do{
+        puts("Digite o que deseja fazer:");
+        puts("1: mostrar a lista");
+        puts("2: inserir elemento no início da lista");
+        puts("3: inserir elemento no fim da lista");
+        puts("4: remover elemento no início da lista");
+        puts("5: remover elemento no fim da lista");
+        puts("6: limpar a lista");
+        puts("7: mostrar o comprimento da lista");
+        puts("8: quantos elementos são maiores que um número dado");
+        puts("9: remover todos as instâncias de um número dado");
+        puts("10: mostrar o último elemento da lista");
+        puts("11: separar a lista em duas");
+        puts("0: encerrar");
 
-    int n = 0;
+        scanf("%d", &escolha);
 
-    switch (escolha) {
-        case 1: puts("\nSua lista: ");
-                mostra_lista(ll);
-                putchar('\n');
-                break;
+        int n = 0;
+        No* aux = NULL;
 
-        case 2: puts("Que elemento deseja inserir? ");
-                scanf("%d", &n);
-                insere_inicio(ll, n);
-                break;
+        switch (escolha) {
+            case 1: puts("\nSua lista: ");
+                    mostra_lista(ll);
+                    putchar('\n');
+                    break;
 
-        case 3: puts("Que elemento deseja inserir? ");
-                scanf("%d", &n);
-                insere_fim(ll, n);
-                break;
+            case 2: puts("Que elemento deseja inserir? ");
+                    scanf("%d", &n);
+                    insere_inicio(ll, n);
+                    break;
 
-        case 4: remove_inicio(ll);
-                break;        
-        
-        case 5: remove_fim(ll);
-                break;
+            case 3: puts("Que elemento deseja inserir? ");
+                    scanf("%d", &n);
+                    insere_fim(ll, n);
+                    break;
 
-        case 6: limpa_lista(ll);
-                puts("Lista limpa!\n");
-                break;
-        
-        case 7: printf("\nComprimento: %d\n\n", comprimento(*ll));
-                break;
+            case 4: remove_inicio(ll);
+                    break;        
+            
+            case 5: remove_fim(ll);
+                    break;
 
-        case 8: puts("Que número? ");
-                scanf("%d", &n);
-                printf("\n%d elementos são maiores que %d\n\n", maiores(*ll, n), n);
-                break;
-        
-        case 9: puts("Que número? ");
-                scanf("%d", &n);
-                remove_n(ll, n);
-                break;
+            case 6: limpa_lista(ll);
+                    puts("Lista limpa!\n");
+                    break;
+            
+            case 7: printf("\nComprimento: %d\n\n", comprimento(*ll));
+                    break;
 
-        case -1: return;
+            case 8: puts("Que número? ");
+                    scanf("%d", &n);
+                    printf("\n%d elementos são maiores que %d\n\n", maiores(*ll, n), n);
+                    break;
+            
+            case 9: puts("Que número? ");
+                    scanf("%d", &n);
+                    remove_n(ll, n);
+                    break;
 
-        default: puts("\nValor inválido! Selecione um número entre 1 e 9.\n");
-                break;
-    }
-    menu(ll);
+            case 10: aux = ultimo(*ll);
+                     if (!aux){
+                        puts("\nLista vazia!\n");
+                        break;
+                     }
+                     printf("\nÚltimo elemento: %d\n\n", aux->dado);
+                     break;
+
+            case 11: puts("Depois de que elemento? ");
+                     scanf("%d", &n);
+                     aux = separa(ll, n);
+                     puts("Primeira lista:");
+                     mostra_lista(ll);
+                     puts("Segunda lista:");
+                     mostra_lista(&aux);
+                     putchar('\n');
+                     limpa_lista(&aux); // pra desalocar a memória
+                     break;
+
+            case 0: return;
+
+            default: puts("\nValor inválido! Selecione um número entre 1 e 9.\n");
+                    break;
+        }
+    } while (escolha);
+}
+
+void menu2(No **ll1, No** ll2){
+    int escolha;
+    do{
+        puts("Digite o que deseja fazer com as duas listas:");
+        puts("1: mostrar as listas");
+        puts("2: concatenar as listas");
+        puts("3: mergir as listas");
+        puts("0: encerrar");
+
+        scanf("%d", &escolha);
+
+        switch (escolha) {
+            case 1: puts("\nLista 1: ");
+                    mostra_lista(ll1);
+                    puts("\nLista 2: ");
+                    mostra_lista(ll2);
+                    putchar('\n');
+                    break;
+
+            case 2: puts("\nListas concatenadas: ");
+                    concatena(ll1, ll2);
+                    mostra_lista(ll1);
+                    putchar('\n');
+                    break;
+
+            case 3: merge(ll1, ll2);
+                    puts("\nListas mergidas: ");
+                    mostra_lista(ll1);
+                    putchar('\n');
+
+                    break;
+
+            case 0: return;
+
+            default: puts("\nValor inválido! Selecione um número entre 1 e 3.\n");
+                    break;
+        }
+    } while (escolha);
 }
 
 void mostra_lista(No** ll){
@@ -320,4 +397,67 @@ void remove_n(No** ll,int n){
     }
     
     puts("\nRemovidos!\n");
+}
+
+No* separa(No** ll, int n){
+    if(!(*ll)){
+        puts("\nLista vazia!\n");
+        return NULL;
+    }
+
+    No* lista_nova = (*ll);
+
+    for(; lista_nova && lista_nova->dado != n; lista_nova = lista_nova->prox);
+
+    if (!lista_nova)
+        return lista_nova;
+    // se o elemento n não tá na lista, a primeira fica inalterada
+    // a segunda é retornada vazia
+
+    No* aux = lista_nova;
+    lista_nova = lista_nova->prox;
+
+    aux->prox = NULL;
+    return lista_nova;    
+}
+
+No* ultimo(No* l){
+    No* ultimo = (l);
+    if (ultimo)
+        for(; ultimo->prox; ultimo = ultimo->prox);
+    return ultimo;
+}
+
+void merge(No** ll1, No** ll2){
+    if (!(*ll1)){
+        (*ll1) = (*ll2);
+        return;
+    }
+
+    if (!(*ll2))
+        return;
+    
+    No *aux1, *aux2, *aux1_prox, *aux2_prox;
+    aux1 = (*ll1);
+    aux2 = (*ll2);
+    
+    for(int i=3; ;i++){
+        if (i%2 && aux1 && aux2){ // se estamos numa iteração ímpar, ou seja, adicionando um nó de l1
+            aux1_prox = aux1->prox;
+            aux1->prox = aux2;
+            aux1 = aux1_prox;
+            continue;
+        }
+        if (!(i%2) && aux2 && aux1){ // se estamos numa iteração par, ou seja, adicionando um nó de l2
+            aux2_prox = aux2->prox;
+            aux2->prox = aux1;
+            aux2 = aux2_prox;
+            continue;
+        }
+
+        else
+            break;
+    }
+
+    (*ll2) = NULL;
 }
