@@ -75,8 +75,13 @@ int main(){
     puts("\n///// LISTAS 1 E 2 /////\n");
     menu2(&lista1, &lista2);
 
-    limpa_lista(&lista1); // para desalocar a memória
-    limpa_lista(&lista2);
+    // para desalocar a memória
+
+    if (lista1)
+        limpa_lista(&lista1);
+    
+    if (lista2)
+        limpa_lista(&lista2);
 
     return 0;
 }
@@ -105,6 +110,7 @@ void concatena(No** ll1, No** ll2){
     for(; aux->prox; aux = aux->prox);
     
     aux->prox = (*ll2);
+    (*ll2) = NULL;
 }
 
 void insere_inicio(No**ll, int n){
@@ -314,6 +320,40 @@ void menu2(No **ll1, No** ll2){
     } while (escolha);
 }
 
+void merge(No** ll1, No** ll2){
+    if (!(*ll1)){
+        (*ll1) = (*ll2);
+        return;
+    }
+
+    if (!(*ll2))
+        return;
+    
+    No *aux1, *aux2, *aux1_prox, *aux2_prox;
+    aux1 = (*ll1);
+    aux2 = (*ll2);
+    
+    for(int i=3; ;i++){
+        if (i%2 && aux1 && aux2){ // se estamos numa iteração ímpar, ou seja, adicionando um nó de l1
+            aux1_prox = aux1->prox;
+            aux1->prox = aux2;
+            aux1 = aux1_prox;
+            continue;
+        }
+        if (!(i%2) && aux2 && aux1){ // se estamos numa iteração par, ou seja, adicionando um nó de l2
+            aux2_prox = aux2->prox;
+            aux2->prox = aux1;
+            aux2 = aux2_prox;
+            continue;
+        }
+
+        else
+            break;
+    }
+
+    (*ll2) = NULL;
+}
+
 void mostra_lista(No** ll){
     if (!(*ll)){
         puts("(vazia)");
@@ -426,38 +466,4 @@ No* ultimo(No* l){
     if (ultimo)
         for(; ultimo->prox; ultimo = ultimo->prox);
     return ultimo;
-}
-
-void merge(No** ll1, No** ll2){
-    if (!(*ll1)){
-        (*ll1) = (*ll2);
-        return;
-    }
-
-    if (!(*ll2))
-        return;
-    
-    No *aux1, *aux2, *aux1_prox, *aux2_prox;
-    aux1 = (*ll1);
-    aux2 = (*ll2);
-    
-    for(int i=3; ;i++){
-        if (i%2 && aux1 && aux2){ // se estamos numa iteração ímpar, ou seja, adicionando um nó de l1
-            aux1_prox = aux1->prox;
-            aux1->prox = aux2;
-            aux1 = aux1_prox;
-            continue;
-        }
-        if (!(i%2) && aux2 && aux1){ // se estamos numa iteração par, ou seja, adicionando um nó de l2
-            aux2_prox = aux2->prox;
-            aux2->prox = aux1;
-            aux2 = aux2_prox;
-            continue;
-        }
-
-        else
-            break;
-    }
-
-    (*ll2) = NULL;
 }
