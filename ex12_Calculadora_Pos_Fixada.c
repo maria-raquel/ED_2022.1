@@ -91,6 +91,9 @@ void pop(No** pp){
 }
 
 float topo(No* pilha){
+    // Se a pilha estiver vazia, consideramos que o operando é 0
+    if (!pilha)
+        return 0 ;
     return pilha->valor;
 }
 
