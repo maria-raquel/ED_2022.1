@@ -29,6 +29,9 @@ int comprimento(No* l);
 void concatena(No** ll1, No** ll2);
 // concatena duas listas, a lista 2 é adicionada ao fim da lista 1
 
+No* copia(No* l);
+// retorna um ponteiro para uma cópia da lista l
+
 void limpa_lista(No** ll);
 // faz o ponteiro lista ser nulo e libera a memória alocada para cada nó
 
@@ -117,6 +120,51 @@ void concatena(No** ll1, No** ll2){
     
     aux->prox = (*ll2);
     (*ll2) = NULL;
+}
+
+No* copia(No* l){
+    if(!l)
+        return NULL;
+
+    No* lista_nova = (No*)malloc(sizeof(No));
+    lista_nova->dado = l->dado;
+
+    No* ultima_nova = lista_nova;
+
+    for(No* percorre_l = l->prox; percorre_l; percorre_l = percorre_l->prox){
+        No* novo = (No*)malloc(sizeof(No));
+        novo->dado = percorre_l->dado;
+        ultima_nova->prox = novo;
+        ultima_nova = novo;
+    }
+    ultima_nova->prox = NULL;
+    return lista_nova;
+}
+
+int igual(No* l1, No* l2){
+    if (!l1 && !l2) // se as duas forem vazias
+        return 1;
+
+    if (!l1 || !l2) // se uma for vazia e a outra não
+        return 0;
+
+    No *aux1, *aux2;
+    aux1 = l1;
+    aux2 = l2;
+
+    while (aux1 && aux2){
+        if (aux1->dado != aux2->dado)
+            return 0;
+        aux1 = aux1->prox;
+        aux2 = aux2->prox;
+    }
+
+    // se ambos auxs forem nulos, a lista inteira foi percorrida
+    // se um não for nulo, uma das listas é maior que a outra, portanto não são iguais
+    if (!aux1 && !aux2)
+        return 1;
+    else
+        return 0;
 }
 
 void insere_inicio(No**ll, int n){
@@ -234,6 +282,7 @@ void menu(No **ll){
         puts("10: mostrar o último elemento da lista");
         puts("11: separar a lista em duas");
         puts("12: inverter a lista");
+        puts("13: copiar a lista");
         puts("0: encerrar");
 
         scanf("%d", &escolha);
@@ -304,10 +353,19 @@ void menu(No **ll){
                      mostra_lista(ll);
                      putchar('\n');
                      break;
+            
+            case 13: puts("\nLista original: ");
+                     mostra_lista(ll);
+                     puts("\nCópia: ");
+                     aux = copia(*ll);
+                     mostra_lista(aux);
+                     limpa_lista(&aux);
+                     putchar('\n');
+                     break;
 
             case 0: return;
 
-            default: puts("\nValor inválido! Selecione um número entre 1 e 12.\n");
+            default: puts("\nValor inválido! Selecione um número entre 1 e 13.\n");
                     break;
         }
     } while (escolha);
@@ -348,7 +406,7 @@ void menu2(No **ll1, No** ll2){
             case 4: if (igual(*ll1, *ll2))
                         puts("\nAs listas são iguais!\n");
                     else
-                        puts("\nAs listas são diferentes");                    
+                        puts("\nAs listas são diferentes!\n");                    
                     break;
 
             case 0: return;
@@ -505,30 +563,4 @@ No* ultimo(No* l){
     if (ultimo)
         for(; ultimo->prox; ultimo = ultimo->prox);
     return ultimo;
-}
-
-int igual(No* l1, No* l2){
-    if (!l1 && !l2) // se s duas forem vazias
-        return 1;
-
-    if (!l1 || !l2) // se uma for vazia e a outra não
-        return 0;
-
-    No *aux1, *aux2;
-    aux1 = l1;
-    aux2 = l2;
-
-    while (aux1 && aux2){
-        if (aux1->dado != aux2->dado)
-            return 0;
-        aux1 = aux1->prox;
-        aux2 = aux2->prox;
-    }
-
-    // se ambos auxs forem nulos, a lista inteira foi percorrida
-    // se um não for nulo, uma das listas é maior que a outra, portanto não são iguais
-    if (!aux1 && !aux2)
-        return 1;
-    else
-        return 0;
 }
