@@ -1,3 +1,9 @@
+///////////////////////////////////////////////////
+//////////// LISTA ENCADEADA CIRCULAR /////////////
+///////// definição e implementação da ED /////////
+///////////////////////////////////////////////////
+
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -10,8 +16,8 @@ void cria_lista(No** ll);
 void insere_inicio(No **ll, int n);
 void insere_fim(No **ll, int n);
 void limpa_lista(No** ll);
-void mostra_lista(No** ll);
 void menu(No **ll);
+void mostra_lista(No** ll);
 void remove_inicio(No **ll);
 void remove_fim(No **ll);
 
@@ -25,7 +31,6 @@ int main(){
 void cria_lista(No** ll){
     (*ll) = NULL;
 }
-
 
 void insere_inicio(No **ll, int n){
     No* novo = (No*)malloc(sizeof(No));
@@ -105,51 +110,53 @@ void limpa_lista(No** ll){
 }
 
 void menu(No **ll){
-    puts("Digite o que deseja fazer:");
-    puts("1: mostrar a lista");
-    puts("2: inserir elemento no início da lista");
-    puts("3: inserir elemento no fim da lista");
-    puts("4: remover elemento no início da lista");
-    puts("5: remover elemento no fim da lista");
-    puts("6: limpar a lista");
-    puts("-1: encerrar");
+    int escolha = 1;
 
-    int escolha;
-    scanf("%d", &escolha);
+    do{
+        puts("Digite o que deseja fazer:");
+        puts("1: mostrar a lista");
+        puts("2: inserir elemento no início da lista");
+        puts("3: inserir elemento no fim da lista");
+        puts("4: remover elemento no início da lista");
+        puts("5: remover elemento no fim da lista");
+        puts("6: limpar a lista");
+        puts("-1: encerrar");
 
-    int n = 0;
+        scanf("%d", &escolha);
 
-    switch (escolha) {
-        case 1: puts("\nSua lista: ");
-                mostra_lista(ll);
-                putchar('\n');
-                break;
+        int n = 0;
 
-        case 2: puts("Que elemento deseja inserir? ");
-                scanf("%d", &n);
-                insere_inicio(ll, n);
-                break;
+        switch (escolha) {
+            case 1: puts("\nSua lista: ");
+                    mostra_lista(ll);
+                    putchar('\n');
+                    break;
 
-        case 3: puts("Que elemento deseja inserir? ");
-                scanf("%d", &n);
-                insere_fim(ll, n);
-                break;
+            case 2: puts("Que elemento deseja inserir? ");
+                    scanf("%d", &n);
+                    insere_inicio(ll, n);
+                    break;
 
-        case 4: remove_inicio(ll);
-                break;        
-        
-        case 5: remove_fim(ll);
-                break;
+            case 3: puts("Que elemento deseja inserir? ");
+                    scanf("%d", &n);
+                    insere_fim(ll, n);
+                    break;
 
-        case 6: limpa_lista(ll);
-                break;
+            case 4: remove_inicio(ll);
+                    break;        
+            
+            case 5: remove_fim(ll);
+                    break;
 
-        case -1: return;
+            case 6: limpa_lista(ll);
+                    break;
 
-        default: puts("\nValor invalido! Selecione um número entre 1 e 6.\n");
-                break;
-    }
-    menu(ll);
+            case -1: return;
+
+            default: puts("\nValor invalido! Selecione um número entre 1 e 6.\n");
+                    break;
+        }
+    } while (escolha);
 }
 
 void mostra_lista(No** ll){

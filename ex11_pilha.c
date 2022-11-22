@@ -1,3 +1,8 @@
+///////////////////////////////////////////////////
+////////////////////// PILHA //////////////////////
+///////// definição e implementação da ED /////////
+///////////////////////////////////////////////////
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -45,65 +50,67 @@ void limpa_pilha(No** pp){
     limpa_pilha(&aux);
 }
 
-void menu(No** pp){
-    puts("Digite o que deseja fazer: ");
-    puts("  1: mostrar o topo da pilha");
-    puts("  2: inserir um novo topo na pilha (push)");
-    puts("  3: remover o topo da pilha (pop)");
-    puts("  4: mostrar a pilha inteira");
-    puts("  5: limpar a pilha");
-    puts("  6: mostrar a pilha inteira ao contrário");
-    puts("  -1: encerrar");
+    void menu(No** pp){
+        int escolha = -1;
 
-    int escolha;
-    scanf("%d", &escolha);
-    int n=0;
+    do{
+        puts("Digite o que deseja fazer: ");
+        puts("  1: mostrar o topo da pilha");
+        puts("  2: inserir um novo topo na pilha (push)");
+        puts("  3: remover o topo da pilha (pop)");
+        puts("  4: mostrar a pilha inteira");
+        puts("  5: limpar a pilha");
+        puts("  6: mostrar a pilha inteira ao contrário");
+        puts("  -1: encerrar");
 
-    switch (escolha){
+        scanf("%d", &escolha);
+        int n=0;
 
-    case 1:
-        puts("\nTopo da pilha:");
-        mostra_topo(pp);
-        putchar('\n');
-        break;
+        switch (escolha){
 
-    case 2:
-        puts("\nQue número deseja inserir?");
-        scanf("%d", &n);
-        push(pp, n);
-        break;
-    
-    case 3:
-        pop(pp);
-        break;
-    
-    case 4:
-        puts("\nPilha:");
-        printf("( ");
-        mostra_pilha(*pp);
-        printf(")\n\n");
-        break;
+        case 1:
+            puts("\nTopo da pilha:");
+            mostra_topo(pp);
+            putchar('\n');
+            break;
 
-    case 5:
-        limpa_pilha(pp);
-        puts("\nPilha limpa\n");
-        break;
+        case 2:
+            puts("\nQue número deseja inserir?");
+            scanf("%d", &n);
+            push(pp, n);
+            break;
+        
+        case 3:
+            pop(pp);
+            break;
+        
+        case 4:
+            puts("\nPilha:");
+            printf("( ");
+            mostra_pilha(*pp);
+            printf(")\n\n");
+            break;
 
-    case 6:
-        puts("\nPilha ao contrário:");
-        printf("( ");
-        mostra_pilha_ao_contrario(*pp);
-        printf(")\n\n");
-        break;
-    
-    case -1:
-        return;
-    
-    default:
-        puts("\nValor invalido! Selecione um número entre 1 e 6\n");
-        break;
-    }
-    menu(pp);
+        case 5:
+            limpa_pilha(pp);
+            puts("\nPilha limpa\n");
+            break;
+
+        case 6:
+            puts("\nPilha ao contrário:");
+            printf("( ");
+            mostra_pilha_ao_contrario(*pp);
+            printf(")\n\n");
+            break;
+        
+        case -1:
+            return;
+        
+        default:
+            puts("\nValor invalido! Selecione um número entre 1 e 6\n");
+            break;
+        }
+    } while (escolha);
 }
 
 void mostra_pilha(No* p){

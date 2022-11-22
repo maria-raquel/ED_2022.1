@@ -1,3 +1,9 @@
+///////////////////////////////////////////////////
+//////////// LISTA ENCADEADA ORDENADA /////////////
+///////// definição e implementação da ED /////////
+///////////////////////////////////////////////////
+
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -75,6 +81,49 @@ void limpa(No** ll){
     puts("\nLista limpa!\n");
 }
 
+void menu(No** ll){
+    int escolha = 1;
+
+    do{
+        puts("Digite o que deseja fazer:");
+        puts("1: mostrar a lista");
+        puts("2: inserir elemento na lista");
+        puts("3: remover elemento da lista");
+        puts("4: limpar a lista");
+        puts("-1: encerrar");
+
+        scanf("%d", &escolha);
+
+        int n = 0;
+        int m = 0;
+
+        switch (escolha) {
+            case 1: puts("\nSua lista: ");
+                    mostra(ll);
+                    putchar('\n');
+                    break;
+
+            case 2: puts("Que elemento deseja inserir? ");
+                    scanf("%d", &n);
+                    insere(ll, n);
+                    break;
+
+            case 3: puts("Que elemento deseja remover? ");
+                    scanf("%d", &m);
+                    remove_(ll, m);
+                    break;
+
+            case 4: limpa(ll);
+                    break;        
+
+            case -1: return;
+
+            default: puts("\nValor invalido! Selecione um número entre 1 e 4.\n");
+                    break;
+        }
+    } while (escolha);
+}
+
 void mostra(No** ll){
     if (!(*ll)){
         puts("(vazia)");
@@ -88,47 +137,6 @@ void mostra(No** ll){
         printf("%d, ", aux->dado);
 
     printf("%d)\n", aux->dado);
-}
-
-void menu(No** ll){
-    puts("Digite o que deseja fazer:");
-    puts("1: mostrar a lista");
-    puts("2: inserir elemento na lista");
-    puts("3: remover elemento da lista");
-    puts("4: limpar a lista");
-    puts("-1: encerrar");
-
-    int escolha;
-    scanf("%d", &escolha);
-
-    int n = 0;
-    int m = 0;
-
-    switch (escolha) {
-        case 1: puts("\nSua lista: ");
-                mostra(ll);
-                putchar('\n');
-                break;
-
-        case 2: puts("Que elemento deseja inserir? ");
-                scanf("%d", &n);
-                insere(ll, n);
-                break;
-
-        case 3: puts("Que elemento deseja remover? ");
-                scanf("%d", &m);
-                remove_(ll, m);
-                break;
-
-        case 4: limpa(ll);
-                break;        
-
-        case -1: return;
-
-        default: puts("\nValor invalido! Selecione um número entre 1 e 4.\n");
-                break;
-        }
-    menu(ll);
 }
 
 void remove_(No** ll, int n){

@@ -1,8 +1,7 @@
-#include <stdio.h>
+// Exercício: escrever duas funcoes que retornam o n-esimo elemento da sequencia de Fibonacci
+// Uma com passagem de parametro por valor, a outra por referencia
 
-/* Duas funcoes que retornam o n-esimo elemento da sequencia de Fibonacci
-   Uma com passagem de parametro por valor, a outra por referencia
- */ 
+#include <stdio.h>
 
 int fib_por_valor(int n);
 int fib_por_ref(int *p);

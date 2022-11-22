@@ -1,6 +1,6 @@
-#include <stdio.h>
+// Exercício: Escrever um programa para gerar tabela ASCII usando uma única variável do tipo char
 
-// Exercício: Programa para gerar tabela ASCII usando variavel do tipo char
+#include <stdio.h>
 
 int main (){
 

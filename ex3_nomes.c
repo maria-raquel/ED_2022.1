@@ -1,5 +1,5 @@
-// Guardar dez nomes simples em um vetor de ponteiros alocado dinamicamente
-
+// Exercício: guardar dez nomes simples em um vetor de ponteiros alocado dinamicamente
+//
 // Regras:
 //     alocar tudo dinamicamente
 //     usar uma função para guardar os nomes

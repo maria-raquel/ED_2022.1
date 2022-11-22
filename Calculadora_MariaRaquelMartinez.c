@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////
 ///////////////// CALCULADORA PÓS FIXADA /////////////////
 /////////////// exemplo de uso da ED pilha ///////////////
-////////// Maria Raquel Martinez - 202000025900 //////////
+/////////// Maria Raquel Martinez - 20200025900 //////////
 //////////////////////////////////////////////////////////
 
 #include <stdio.h>
@@ -93,7 +93,7 @@ void pop(No** pp){
 float topo(No* pilha){
     // Se a pilha estiver vazia, consideramos que o operando é 0
     if (!pilha)
-        return 0 ;
+        return 0;
     return pilha->valor;
 }
 

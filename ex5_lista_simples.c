@@ -10,15 +10,14 @@
 typedef struct{
     int vetor[N];
     int ctrl; // indice de ocupacao
-    //representa o indice do ultimo elemento
+    //representa o indice do último elemento
     // N-1 se a lista esta cheia, -1 se esta vazia
 } Lista;
 
-// assinaturas
 void cria_lista (Lista *l);
 int insere_fim (Lista *l);
 void limpa_lista (Lista *l);
-int menu(Lista *l);
+void menu(Lista *l);
 int mostra_lista(Lista *l);
 int remove_fim (Lista *l);
 
@@ -34,7 +33,7 @@ void cria_lista (Lista *l){
 }
 
 int insere_fim (Lista *l){
-    if (l->ctrl == N-1) // verificando se ha espaco na lista
+    if (l->ctrl == N-1) // verificando se há espaco na lista
         return 0;
 
     int insercao;
@@ -62,6 +61,36 @@ int remove_fim (Lista *l){
     return 1;
 }
 
+void menu(Lista *l){
+    int escolha = 1;
+
+    do{
+        puts("Digite o que deseja fazer:");
+        puts("1: mostrar lista");
+        puts("2: inserir elemento na lista");
+        puts("3: remover ultimo elemento da lista");
+        puts("4: limpar a lista");
+        puts("-1: encerrar");
+
+        scanf("%d", &escolha);
+
+        switch (escolha) {
+            case 1: mostra_lista(l);
+                    break;
+            case 2: insere_fim(l);
+                    break;
+            case 3: remove_fim(l);
+                    break;
+            case 4: limpa_lista(l);
+                    break;
+            case -1: return;
+            default: puts("Valor invalido!");
+                    break;
+        }
+
+    } while (escolha);
+}
+
 int mostra_lista(Lista *l){
     if (l->ctrl == -1){
         puts("Lista vazia");
@@ -74,32 +103,4 @@ int mostra_lista(Lista *l){
 
     printf("%d\n", l->vetor[l->ctrl]);
     putchar('\n');
-}
-
-int menu(Lista *l){
-    puts("Digite o que deseja fazer:");
-    puts("1: mostrar lista");
-    puts("2: inserir elemento na lista");
-    puts("3: remover ultimo elemento da lista");
-    puts("4: limpar a lista");
-    puts("-1: encerrar");
-
-    int escolha;
-    scanf("%d", &escolha);
-
-    switch (escolha) {
-        case 1: mostra_lista(l);
-                break;
-        case 2: insere_fim(l);
-                break;
-        case 3: remove_fim(l);
-                break;
-        case 4: limpa_lista(l);
-                break;
-        case -1: return 0;
-        default: puts("Valor invalido!");
-                break;
-    }
-    
-    menu(l);
 }

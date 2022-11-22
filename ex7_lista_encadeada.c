@@ -32,9 +32,6 @@ void concatena(No** ll1, No** ll2);
 No* copia(No* l);
 // retorna um ponteiro para uma cópia da lista l
 
-void limpa_lista(No** ll);
-// faz o ponteiro lista ser nulo e libera a memória alocada para cada nó
-
 int igual(No* l1, No* l2);
 // retorna 1 se as listas forem iguais, 0 se forem diferentes;
 
@@ -44,6 +41,9 @@ void insere_fim(No** ll, int n);
 
 void inverte(No** ll);
 // inverte a lista, (1 2 3 4) vira (4 3 2 1)
+
+void limpa_lista(No** ll);
+// faz o ponteiro lista ser nulo e libera a memória alocada para cada nó
 
 int maiores(No* l, int n);
 // retorna quantos elementos da lista são maiores que n
@@ -372,7 +372,7 @@ void menu(No **ll){
 }
 
 void menu2(No **ll1, No** ll2){
-    int escolha;
+    int escolha = 1;
     do{
         puts("Digite o que deseja fazer com as duas listas:");
         puts("1: mostrar as listas");

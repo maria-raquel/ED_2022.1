@@ -1,8 +1,10 @@
+// Exercício sobre manipulação de arquivos
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
-typedef struct{     // definindo um tipo Pessoa, usaremos apenas na questao 3
+typedef struct{ // definindo um tipo Pessoa, usaremos apenas na questao 3
     char *nome;
     int idade;
 } Pessoa;
