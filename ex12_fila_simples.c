@@ -124,7 +124,6 @@ void mostra_head(Fila* f){
 void remove_head(Fila* f){
     if (f->head == f->tail)
         f->head = f->tail = -1;
-}
     else
         f->head = (f->head + 1)%N;
 }
