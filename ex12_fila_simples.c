@@ -59,10 +59,10 @@ void menu(Fila* f){
 
     do{
         puts("Digite o que deseja fazer:");
-        puts("1: inserir elemento");
+        puts("1: inserir elemento na fila");
         puts("2: mostrar a fila");
-        puts("3: mostrar o primeiro elemento");
-        puts("4: remover o primeiro elemento");
+        puts("3: mostrar o próximo da fila");
+        puts("4: remover o próximo da fila");
         puts("-1: encerrar o programa");
 
         scanf("%d", &escolha);
