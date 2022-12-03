@@ -84,4 +84,5 @@ No* insere(No* a, int n){
     else if (n < a->dado)
         a->e = insere(a->e, n);
     else a->d = insere(a->d, n);
+    return a;
 }
