@@ -33,7 +33,15 @@ No* insere(No* a, int n);
 void menu(No* a);
 
 int main(){
-    // No* arvore = cria_arvore();
+    No* arvore = cria_arvore();
+    // arvore = insere(arvore, 7);
+    // arvore = insere(arvore, 4);
+    // arvore = insere(arvore, 17);
+    // arvore = insere(arvore, 78);
+    // arvore = insere(arvore, 1);
+    // arvore = insere(arvore, 3);
+    // imprime_infix()
+    menu(arvore);
     return 0;
 }
 
@@ -48,6 +56,7 @@ No* cria_no(int n, No* esquerda, No* direita){
     novo->dado = n;
     novo->e = esquerda;
     novo->d = direita;
+
     return novo;
 }
 
@@ -81,7 +90,7 @@ int altura(No* raiz){
     int a, b;
     a = altura(raiz->e);
     b = altura(raiz->d);
-    
+
     if (a>b) return a+1;
     else return b+1;
 }
@@ -95,3 +104,51 @@ No* insere(No* a, int n){
     return a;
 }
 
+void menu(No* a){
+    int escolha = 0;
+    int n;
+
+    do{
+        puts("O que deseja fazer com a árvore?");
+        puts("1: inserir elemento");
+        puts("2: imprimir prefix");
+        puts("3: imprimir infix");
+        puts("4: imprimir posfix");
+        puts("5: calcular a altura da árvore");
+        puts("-1: encerrar o programa");
+
+        scanf("%d", &escolha);
+
+        switch (escolha)
+        {
+        case 1:
+            puts("que número?");
+            scanf("%d", &n);
+            a = insere(a, n);
+            break;
+        case 2: 
+            printf("\n");
+            imprime_prefix(a);
+            printf("\n\n");
+            break;
+        case 3: 
+            printf("\n");
+            imprime_infix(a);
+            printf("\n\n");
+            break;
+        case 4: 
+            printf("\n");
+            imprime_posfix(a);
+            printf("\n\n");
+            break;
+        case 5:
+            printf("\nAltura da árvore: %d\n\n", altura(a));
+            break;
+        case -1:
+            return;
+        default:
+            puts("\nValor inválido!\n");
+            break;
+        }
+    } while (escolha);
+}
