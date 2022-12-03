@@ -60,28 +60,34 @@ No* cria_no(int n, No* esquerda, No* direita){
     return novo;
 }
 
-void imprime_prefix(No* a){
+void imprime_prefix(No* a){ // imprime <raiz sae sad>
+    putchar('<');
     if (a){
         printf("%d ", a->dado); // trata a raiz
         imprime_prefix(a->e); // percorre subarvore a esquerda
         imprime_prefix(a->d); // percorre subarvore a direita
     }
+    putchar('>');
 }
 
-void imprime_infix(No* a){
+void imprime_infix(No* a){ // imprime <sae raiz sad>
+    putchar('<');
     if (a){
         imprime_infix(a->e); // percorre subarvore a esquerda
         printf("%d ", a->dado); // trata a raiz
         imprime_infix(a->d); // percorre subarvore a direita
     }
+    putchar('>');
 }
 
-void imprime_posfix(No* a){
+void imprime_posfix(No* a){ // imprime <sae sad raiz>
+    putchar('<');
     if (a){
         imprime_posfix(a->e); // percorre subarvore a esquerda
         imprime_posfix(a->d); // percorre subarvore a direita
         printf("%d ", a->dado); // trata a raiz
     }
+    putchar('>');
 }
 
 int altura(No* raiz){
@@ -119,12 +125,12 @@ void menu(No* a){
 
         scanf("%d", &escolha);
 
-        switch (escolha)
-        {
+        switch (escolha){
         case 1:
             puts("que número?");
             scanf("%d", &n);
             a = insere(a, n);
+            putchar('\n');
             break;
         case 2: 
             printf("\n");
