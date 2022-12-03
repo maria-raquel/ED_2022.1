@@ -22,12 +22,12 @@ void imprime_infix(No* a); // percurso que imprime árvores ordenadas
 void imprime_posfix(No* a); // percurso que limpa árvores
 
 int main(){
-    No* arvore = cria_arvore();
+    // No* arvore = cria_arvore();
     return 0;
 }
 
 No* cria_arvore(){
-    return NULL;
+    return 0;
 }
 
 No* cria_no(int n, No* esquerda, No* direita){
