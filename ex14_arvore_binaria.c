@@ -3,6 +3,9 @@
 ///////// definição e implementação da ED /////////
 ///////////////////////////////////////////////////
 
+#include <stdio.h>
+#include <stdlib.h>
+
 typedef struct No {
     int dado;
     struct No* e;
@@ -26,6 +29,8 @@ int altura(No* a);
 
 // insere um número na árvore no local correto 
 No* insere(No* a, int n);
+
+void menu(No* a);
 
 int main(){
     // No* arvore = cria_arvore();
@@ -72,8 +77,11 @@ void imprime_posfix(No* a){
 
 int altura(No* raiz){
     if (!raiz) return 0;
+
+    int a, b;
     a = altura(raiz->e);
     b = altura(raiz->d);
+    
     if (a>b) return a+1;
     else return b+1;
 }
@@ -86,3 +94,4 @@ No* insere(No* a, int n){
     else a->d = insere(a->d, n);
     return a;
 }
+
