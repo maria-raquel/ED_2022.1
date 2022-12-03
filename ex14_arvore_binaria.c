@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////
-///////////////// ÁRVORE BINÁRIA //////////////////
+//////////// ÁRVORE BINÁRIA DE BUSCA //////////////
 ///////// definição e implementação da ED /////////
 ///////////////////////////////////////////////////
 
@@ -20,6 +20,12 @@ No* cria_no(int n, No* esquerda, No* direita);
 void imprime_prefix(No* a);
 void imprime_infix(No* a); // percurso que imprime árvores ordenadas
 void imprime_posfix(No* a); // percurso que limpa árvores
+
+// retorna a altura da árvore
+int altura(No* a);
+
+// insere um número na árvore no local correto 
+No* insere(No* a, int n);
 
 int main(){
     // No* arvore = cria_arvore();
@@ -62,4 +68,20 @@ void imprime_posfix(No* a){
         imprime_posfix(a->d); // percorre subarvore a direita
         printf("%d ", a->dado); // trata a raiz
     }
+}
+
+int altura(No* raiz){
+    if (!raiz) return 0;
+    a = altura(raiz->e);
+    b = altura(raiz->d);
+    if (a>b) return a+1;
+    else return b+1;
+}
+
+No* insere(No* a, int n){
+    if (!a)
+        a = cria_no(n,0,0);
+    else if (n < a->dado)
+        a->e = insere(a->e, n);
+    else a->d = insere(a->d, n);
 }
