@@ -36,6 +36,9 @@ No* limpa(No* a);
 // Remove o nó com o valor passado e rearranja os nós para manter a ordenação
 No* remove_no(No* a, int n);
 
+// Retorna 1 se um n está na árvore e 0 se não
+int esta_na_arvore(No* a, int n);
+
 void menu(No* a);
 
 int main(){
@@ -120,10 +123,8 @@ No* remove_no(No* a, int n){
     if (!a) return NULL;
 
     // procurando o nó que contem n
-
     else if (n < a->dado)
         a->e = remove_no(a->e, n);
-    
     else if (n > a->dado)
         a->d = remove_no(a->d, n);
 
@@ -154,17 +155,23 @@ No* remove_no(No* a, int n){
             for(; aux->d; aux = aux->d);
 
             // trocamos os valores dos dois nós de lugar
-            // isso mantém a ordenação da quando retirarmos n
+            // isso mantem a ordenação quando retirarmos n
             a->dado = aux->dado;
             aux->dado = n;
 
             // chamamos a função novamente
-            // dessa vez, quando encontrarmos n na árvore, ele não terá filhos
-            // e a remoção será feita
+            // dessa vez, quando encontrarmos n na árvore, ele não terá filhos e a remoção será feita
             a->e = remove_no(a->e, n); 
         }
     }
     return a;
+}
+
+int esta_na_arvore(No* a, int n){
+    if (!a) return 0;
+    else if (a->dado > n) return esta_na_arvore(a->e, n);
+    else if (a->dado < n) return esta_na_arvore(a->d, n);
+    else return 1;
 }
 
 void menu(No* a){
@@ -173,20 +180,21 @@ void menu(No* a){
 
     do{
         puts("O que deseja fazer com a árvore?");
-        puts("1: inserir elemento");
+        puts("1: inserir um número");
         puts("2: imprimir prefix");
         puts("3: imprimir infix");
         puts("4: imprimir posfix");
         puts("5: calcular a altura da árvore");
         puts("6: limpar a árvore");
         puts("7: remover um número da árvore");
+        puts("8: verificar se um número está na árvore");
         puts("-1: encerrar o programa");
 
         scanf("%d", &escolha);
 
         switch (escolha){
         case 1:
-            puts("que número?");
+            puts("\nQue número?");
             scanf("%d", &n);
             a = insere(a, n);
             putchar('\n');
@@ -211,14 +219,24 @@ void menu(No* a){
             break;
         case 6:
             a = limpa(a);
-            puts("\nÁrvore limpa\n");
+            puts("\nÁrvore limpa!\n");
             break;
         case 7: 
-            puts("Que número deseja remover?");
+            puts("\nQue número deseja remover?");
             scanf("%d", &n);
-            a = remove_no(a, n);
-            puts("Removido!");
-            puts("ou não, ainda não verifiquei se n está na árvore, pode ser que dê problema isso aí\n");
+            if (esta_na_arvore(a, n)){
+                a = remove_no(a, n);
+                puts("Removido!\n");
+            }
+            else printf("%d não está na árvore!\n\n", n);
+            break;
+        case 8: 
+            puts("Que número deseja verificar?");
+            scanf("%d", &n);
+            if (esta_na_arvore(a, n)) 
+                printf("\n%d está na árvore!\n\n", n);
+            else 
+                printf("\n%d não está na árvore!\n\n", n);
             break;
         case -1:
             return;
