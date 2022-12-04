@@ -36,11 +36,14 @@ No* limpa(No* a);
 // Remove o nó com o valor passado e rearranja os nós para manter a ordenação
 No* remove_no(No* a, int n);
 
-// Retorna 1 se um n está na árvore e 0 se não
+// Retorna 1 se n está na árvore e 0 se não
 int esta_na_arvore(No* a, int n);
 
 // Retorna o menor nível no qual um número se encontra na árvore
 int nivel(No* a, int n);
+
+// Retorna um ponteiro para o nó que contem n
+No* busca(No* a, int n);
 
 void menu(No* a);
 
@@ -174,19 +177,27 @@ int esta_na_arvore(No* a, int n){
     if (!a) return 0;
     if (n < a->dado) return esta_na_arvore(a->e, n);
     if (n > a->dado) return esta_na_arvore(a->d, n);
-    return 1;
+    return 1; // a->dado == n, ou seja, estamos no nó correto
 }
 
 int nivel(No* a, int n){
     if (!a) return -1;
     if (n < a->dado) return nivel(a->e, n)+1;
-    if (n > a->dado) return nivel(a->d,n)+1;
-    return 0;
+    if (n > a->dado) return nivel(a->d, n)+1;
+    return 0; // a->dado == n, ou seja, estamos no nó correto
+}
+
+No* busca(No* a, int n){
+    if (!a) return NULL;
+    if (n < a->dado) return busca(a->e, n);
+    if (n > a->dado) return busca(a->d, n);
+    return a; // a->dado == n, ou seja, estamos no nó correto
 }
 
 void menu(No* a){
     int escolha = 0;
     int n;
+    No* aux;
 
     do{
         puts("O que deseja fazer com a árvore?");
@@ -199,6 +210,7 @@ void menu(No* a){
         puts("7: remover um número da árvore");
         puts("8: verificar se um número está na árvore");
         puts("9: mostrar o menor nível onde se encontra um número na árvore");
+        puts("10: busca um número na árvore (mesma coisa que 8, mas com outra função)");
         puts("-1: encerrar o programa");
 
         scanf("%d", &escolha);
@@ -257,6 +269,15 @@ void menu(No* a){
             else 
                 printf("\n%d não está na árvore!\n\n", n);
             break;
+        case 10:
+            puts("Que número?");
+            scanf("%d", &n);
+            aux = busca(a, n);
+            if (!aux)
+                printf("\n%d não está na árvore!\n\n", n);
+            else
+                printf("\n%d está na árvore!\n\n", aux->dado);
+            break;     
         case -1:
             return;
         default:
