@@ -20,7 +20,7 @@ No* cria_arvore();
 No* cria_no(int n, No* esquerda, No* direita);
 
 // Funções de imprimir, com diferentes formas de percorrer a árvore
-void imprime_prefix(No* a);
+void imprime_prefix(No* a); 
 void imprime_infix(No* a); // percurso que imprime árvores ordenadas
 void imprime_posfix(No* a); // percurso que limpa árvores
 
@@ -38,6 +38,9 @@ No* remove_no(No* a, int n);
 
 // Retorna 1 se um n está na árvore e 0 se não
 int esta_na_arvore(No* a, int n);
+
+// Retorna o menor nível no qual um número se encontra na árvore
+int nivel(No* a, int n);
 
 void menu(No* a);
 
@@ -169,9 +172,16 @@ No* remove_no(No* a, int n){
 
 int esta_na_arvore(No* a, int n){
     if (!a) return 0;
-    else if (a->dado > n) return esta_na_arvore(a->e, n);
-    else if (a->dado < n) return esta_na_arvore(a->d, n);
-    else return 1;
+    if (n < a->dado) return esta_na_arvore(a->e, n);
+    if (n > a->dado) return esta_na_arvore(a->d, n);
+    return 1;
+}
+
+int nivel(No* a, int n){
+    if (!a) return -1;
+    if (n < a->dado) return nivel(a->e, n)+1;
+    if (n > a->dado) return nivel(a->d,n)+1;
+    return 0;
 }
 
 void menu(No* a){
@@ -188,6 +198,7 @@ void menu(No* a){
         puts("6: limpar a árvore");
         puts("7: remover um número da árvore");
         puts("8: verificar se um número está na árvore");
+        puts("9: mostrar o menor nível onde se encontra um número na árvore");
         puts("-1: encerrar o programa");
 
         scanf("%d", &escolha);
@@ -222,7 +233,7 @@ void menu(No* a){
             puts("\nÁrvore limpa!\n");
             break;
         case 7: 
-            puts("\nQue número deseja remover?");
+            puts("\nQue número?");
             scanf("%d", &n);
             if (esta_na_arvore(a, n)){
                 a = remove_no(a, n);
@@ -231,10 +242,18 @@ void menu(No* a){
             else printf("%d não está na árvore!\n\n", n);
             break;
         case 8: 
-            puts("Que número deseja verificar?");
+            puts("Que número?");
             scanf("%d", &n);
             if (esta_na_arvore(a, n)) 
                 printf("\n%d está na árvore!\n\n", n);
+            else 
+                printf("\n%d não está na árvore!\n\n", n);
+            break;
+        case 9:
+            puts("Que número deseja verificar?");
+            scanf("%d", &n);
+            if (esta_na_arvore(a, n)) 
+                printf("\n%d está no nível %d\n\n", n, nivel(a, n));
             else 
                 printf("\n%d não está na árvore!\n\n", n);
             break;
