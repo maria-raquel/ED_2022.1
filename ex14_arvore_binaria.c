@@ -8,11 +8,11 @@
 
 typedef struct No {
     int dado;
-    struct No* e;
-    struct No* d;
+    struct No* e; // ponteiro para o filho da esquerda
+    struct No* d; // ponteiro para o filho da direita
 } No;
 
-// Crua uma árvore vazia, deve ser atribuído a uma variável 
+// Cria uma árvore vazia, deve ser atribuído a uma variável 
 No* cria_arvore();
 
 // Aloca o espaço, preenche os campos e retorna um ponteiro
@@ -33,17 +33,13 @@ No* insere(No* a, int n);
 // limpa a árvore, desalocando a memória
 No* limpa(No* a);
 
+// remove o nó com o valor passado e rearranja os nós para manter a ordenação
+No* remove_no(No* a, int n);
+
 void menu(No* a);
 
 int main(){
     No* arvore = cria_arvore();
-    // arvore = insere(arvore, 7);
-    // arvore = insere(arvore, 4);
-    // arvore = insere(arvore, 17);
-    // arvore = insere(arvore, 78);
-    // arvore = insere(arvore, 1);
-    // arvore = insere(arvore, 3);
-    // imprime_infix()
     menu(arvore);
     return 0;
 }
@@ -119,6 +115,57 @@ No* limpa(No* a){
     limpa(a->d);
 }
 
+No* remove_no(No* a, int n){
+    if (!a) return NULL;
+
+    // procurando o nó que contem n
+
+    else if (n < a->dado)
+        a->e = remove_no(a->e, n);
+    
+    else if (n > a->dado)
+        a->d = remove_no(a->d, n);
+
+    else{ // encontramos o nó
+
+        if (!(a->e) && !(a->d)){ // nó sem filhos
+            free(a);
+            a = NULL;
+        }
+
+        else if (!(a->d)){ // apenas filho da esquerda
+            No* aux = a;
+            a = a->e;
+            free(aux);
+        }
+
+        else if (!(a->e)){ // apenas filho da direita
+            No* aux = a;
+            a = a->d;
+            free(aux);
+        }
+
+        else{ // nó tem ambos filhos
+
+            // encontramos o descendente mais a direita do filho a esquerda do nó
+            // ele tem o valor mais alto menor que n na árvore
+            No* aux = a->e;
+            for(; aux->d; aux = aux->d);
+
+            // trocamos os valores dos dois nós de lugar
+            // isso mantém a ordenação da quando retirarmos n
+            a->dado = aux->dado;
+            aux->dado = n;
+
+            // chamamos a função novamente
+            // dessa vez, quando encontrarmos n na árvore, ele não terá filhos
+            // e a remoção será feita
+            a->e = remove_no(a->e, n); 
+        }
+    }
+    return a;
+}
+
 void menu(No* a){
     int escolha = 0;
     int n;
@@ -131,6 +178,7 @@ void menu(No* a){
         puts("4: imprimir posfix");
         puts("5: calcular a altura da árvore");
         puts("6: limpar a árvore");
+        puts("7: remover um número da árvore");
         puts("-1: encerrar o programa");
 
         scanf("%d", &escolha);
@@ -161,9 +209,15 @@ void menu(No* a){
             printf("\nAltura da árvore: %d\n\n", altura(a));
             break;
         case 6:
-            putchar('\n');
             limpa(a);
-            putchar('\n');
+            puts("\nÁrvore limpa\n");
+            break;
+        case 7: 
+            puts("Que número deseja remover?");
+            scanf("%d", &n);
+            a = remove_no(a, n);
+            puts("Removido!");
+            puts("ou não, ainda não verifiquei se n está na árvore, pode ser que dê problema isso aí\n");
             break;
         case -1:
             return;
