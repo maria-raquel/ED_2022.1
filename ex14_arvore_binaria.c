@@ -30,6 +30,9 @@ int altura(No* a);
 // insere um número na árvore no local correto 
 No* insere(No* a, int n);
 
+// limpa a árvore, desalocando a memória
+No* limpa(No* a);
+
 void menu(No* a);
 
 int main(){
@@ -110,6 +113,12 @@ No* insere(No* a, int n){
     return a;
 }
 
+No* limpa(No* a){
+    if(!a) return;
+    limpa(a->e);
+    limpa(a->d);
+}
+
 void menu(No* a){
     int escolha = 0;
     int n;
@@ -121,6 +130,7 @@ void menu(No* a){
         puts("3: imprimir infix");
         puts("4: imprimir posfix");
         puts("5: calcular a altura da árvore");
+        puts("6: limpar a árvore");
         puts("-1: encerrar o programa");
 
         scanf("%d", &escolha);
@@ -149,6 +159,11 @@ void menu(No* a){
             break;
         case 5:
             printf("\nAltura da árvore: %d\n\n", altura(a));
+            break;
+        case 6:
+            putchar('\n');
+            limpa(a);
+            putchar('\n');
             break;
         case -1:
             return;
