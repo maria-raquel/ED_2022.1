@@ -45,6 +45,9 @@ int nivel(No* a, int n);
 // Retorna um ponteiro para o nó que contem n
 No* busca(No* a, int n);
 
+// Retorna a quantidade de nós que a árvore tem
+int quantos_nos(No* a);
+
 void menu(No* a);
 
 int main(){
@@ -194,6 +197,13 @@ No* busca(No* a, int n){
     return a; // a->dado == n, ou seja, estamos no nó correto
 }
 
+int quantos_nos(No* a){
+    if (!a) return 0;
+    int nos_e = quantos_nos(a->e);
+    int nos_d = quantos_nos(a->d);
+    return nos_e + nos_d + 1;
+}
+
 void menu(No* a){
     int escolha = 0;
     int n;
@@ -211,6 +221,7 @@ void menu(No* a){
         puts("8: verificar se um número está na árvore");
         puts("9: mostrar o menor nível onde se encontra um número na árvore");
         puts("10: busca um número na árvore (mesma coisa que 8, mas com outra função)");
+        puts("11: contar quantos nós a árvore tem");
         puts("-1: encerrar o programa");
 
         scanf("%d", &escolha);
@@ -277,7 +288,10 @@ void menu(No* a){
                 printf("\n%d não está na árvore!\n\n", n);
             else
                 printf("\n%d está na árvore!\n\n", aux->dado);
-            break;     
+            break;  
+        case 11:
+            printf("\nQuantidade de nós: %d\n\n", quantos_nos(a));
+            break;   
         case -1:
             return;
         default:
