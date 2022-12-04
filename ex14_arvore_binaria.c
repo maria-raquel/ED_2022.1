@@ -24,16 +24,16 @@ void imprime_prefix(No* a);
 void imprime_infix(No* a); // percurso que imprime árvores ordenadas
 void imprime_posfix(No* a); // percurso que limpa árvores
 
-// retorna a altura da árvore
+// Retorna a altura da árvore
 int altura(No* a);
 
-// insere um número na árvore no local correto 
+// Insere um número na árvore no local correto 
 No* insere(No* a, int n);
 
-// limpa a árvore, desalocando a memória
+// Limpa a árvore, desalocando a memória
 No* limpa(No* a);
 
-// remove o nó com o valor passado e rearranja os nós para manter a ordenação
+// Remove o nó com o valor passado e rearranja os nós para manter a ordenação
 No* remove_no(No* a, int n);
 
 void menu(No* a);
@@ -110,9 +110,10 @@ No* insere(No* a, int n){
 }
 
 No* limpa(No* a){
-    if(!a) return;
+    if(!a) return NULL;
     limpa(a->e);
     limpa(a->d);
+    free(a);
 }
 
 No* remove_no(No* a, int n){
@@ -209,7 +210,7 @@ void menu(No* a){
             printf("\nAltura da árvore: %d\n\n", altura(a));
             break;
         case 6:
-            limpa(a);
+            a = limpa(a);
             puts("\nÁrvore limpa\n");
             break;
         case 7: 
