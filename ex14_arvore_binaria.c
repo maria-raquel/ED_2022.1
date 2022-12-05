@@ -56,15 +56,15 @@ int main(){
     return 0;
 }
 
-int altura(No* raiz){
-    if (!raiz) return 0;
+int altura(No* a){
+    if (!a) return 0;
 
-    int a, b;
-    a = altura(raiz->e);
-    b = altura(raiz->d);
+    int altura_e, altura_d;
+    altura_e = altura(a->e);
+    altura_d = altura(a->d);
 
-    if (a>b) return a+1;
-    else return b+1;
+    if (altura_e > altura_d) return altura_e + 1;
+    else return altura_d + 1;
 }
 
 No* busca(No* a, int n){
