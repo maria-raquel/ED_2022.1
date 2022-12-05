@@ -12,6 +12,12 @@ typedef struct No {
     struct No* d; // ponteiro para o filho da direita
 } No;
 
+// Retorna a altura da árvore
+int altura(No* a);
+
+// Retorna um ponteiro para o nó que contem n
+No* busca(No* a, int n);
+
 // Cria uma árvore vazia, deve ser atribuído a uma variável 
 No* cria_arvore();
 
@@ -19,13 +25,13 @@ No* cria_arvore();
 // Deve ser atribuído a uma variável 
 No* cria_no(int n, No* esquerda, No* direita);
 
+// Retorna 1 se n está na árvore e 0 se não
+int esta_na_arvore(No* a, int n);
+
 // Funções de imprimir, com diferentes formas de percorrer a árvore
-void imprime_prefix(No* a); 
+void imprime_prefix(No* a); // percurso que facilita a interpretação da árvore escrita linearmente
 void imprime_infix(No* a); // percurso que imprime árvores ordenadas
 void imprime_posfix(No* a); // percurso que limpa árvores
-
-// Retorna a altura da árvore
-int altura(No* a);
 
 // Insere um número na árvore no local correto 
 No* insere(No* a, int n);
@@ -33,27 +39,39 @@ No* insere(No* a, int n);
 // Limpa a árvore, desalocando a memória
 No* limpa(No* a);
 
-// Remove o nó com o valor passado e rearranja os nós para manter a ordenação
-No* remove_no(No* a, int n);
-
-// Retorna 1 se n está na árvore e 0 se não
-int esta_na_arvore(No* a, int n);
+void menu(No* a);
 
 // Retorna o menor nível no qual um número se encontra na árvore
 int nivel(No* a, int n);
 
-// Retorna um ponteiro para o nó que contem n
-No* busca(No* a, int n);
-
 // Retorna a quantidade de nós que a árvore tem
 int quantos_nos(No* a);
 
-void menu(No* a);
+// Remove o nó com o valor passado e rearranja os nós para manter a ordenação
+No* remove_no(No* a, int n);
 
 int main(){
     No* arvore = cria_arvore();
     menu(arvore);
     return 0;
+}
+
+int altura(No* raiz){
+    if (!raiz) return 0;
+
+    int a, b;
+    a = altura(raiz->e);
+    b = altura(raiz->d);
+
+    if (a>b) return a+1;
+    else return b+1;
+}
+
+No* busca(No* a, int n){
+    if (!a) return NULL;
+    if (n < a->dado) return busca(a->e, n);
+    if (n > a->dado) return busca(a->d, n);
+    return a; // a->dado == n, ou seja, estamos no nó correto
 }
 
 No* cria_arvore(){
@@ -62,13 +80,20 @@ No* cria_arvore(){
 
 No* cria_no(int n, No* esquerda, No* direita){
     No* novo = (No*) malloc(sizeof(No));
-    if (!novo) return;
+    if (!novo) return NULL;
 
     novo->dado = n;
     novo->e = esquerda;
     novo->d = direita;
 
     return novo;
+}
+
+int esta_na_arvore(No* a, int n){
+    if (!a) return 0;
+    if (n < a->dado) return esta_na_arvore(a->e, n);
+    if (n > a->dado) return esta_na_arvore(a->d, n);
+    return 1; // a->dado == n, ou seja, estamos no nó correto
 }
 
 void imprime_prefix(No* a){ // imprime <raiz sae sad>
@@ -82,34 +107,19 @@ void imprime_prefix(No* a){ // imprime <raiz sae sad>
 }
 
 void imprime_infix(No* a){ // imprime <sae raiz sad>
-    putchar('<');
     if (a){
         imprime_infix(a->e); // percorre subarvore a esquerda
         printf("%d ", a->dado); // trata a raiz
         imprime_infix(a->d); // percorre subarvore a direita
     }
-    putchar('>');
 }
 
 void imprime_posfix(No* a){ // imprime <sae sad raiz>
-    putchar('<');
     if (a){
         imprime_posfix(a->e); // percorre subarvore a esquerda
         imprime_posfix(a->d); // percorre subarvore a direita
         printf("%d ", a->dado); // trata a raiz
     }
-    putchar('>');
-}
-
-int altura(No* raiz){
-    if (!raiz) return 0;
-
-    int a, b;
-    a = altura(raiz->e);
-    b = altura(raiz->d);
-
-    if (a>b) return a+1;
-    else return b+1;
 }
 
 No* insere(No* a, int n){
@@ -126,82 +136,6 @@ No* limpa(No* a){
     limpa(a->e);
     limpa(a->d);
     free(a);
-}
-
-No* remove_no(No* a, int n){
-    if (!a) return NULL;
-
-    // procurando o nó que contem n
-    else if (n < a->dado)
-        a->e = remove_no(a->e, n);
-    else if (n > a->dado)
-        a->d = remove_no(a->d, n);
-
-    else{ // encontramos o nó
-
-        if (!(a->e) && !(a->d)){ // nó sem filhos
-            free(a);
-            a = NULL;
-        }
-
-        else if (!(a->d)){ // apenas filho da esquerda
-            No* aux = a;
-            a = a->e;
-            free(aux);
-        }
-
-        else if (!(a->e)){ // apenas filho da direita
-            No* aux = a;
-            a = a->d;
-            free(aux);
-        }
-
-        else{ // nó tem ambos filhos
-
-            // encontramos o descendente mais a direita do filho a esquerda do nó
-            // ele tem o valor mais alto menor que n na árvore
-            No* aux = a->e;
-            for(; aux->d; aux = aux->d);
-
-            // trocamos os valores dos dois nós de lugar
-            // isso mantem a ordenação quando retirarmos n
-            a->dado = aux->dado;
-            aux->dado = n;
-
-            // chamamos a função novamente
-            // dessa vez, quando encontrarmos n na árvore, ele não terá filhos e a remoção será feita
-            a->e = remove_no(a->e, n); 
-        }
-    }
-    return a;
-}
-
-int esta_na_arvore(No* a, int n){
-    if (!a) return 0;
-    if (n < a->dado) return esta_na_arvore(a->e, n);
-    if (n > a->dado) return esta_na_arvore(a->d, n);
-    return 1; // a->dado == n, ou seja, estamos no nó correto
-}
-
-int nivel(No* a, int n){
-    if (!a) return -1;
-    if (n < a->dado) return nivel(a->e, n)+1;
-    if (n > a->dado) return nivel(a->d, n)+1;
-    return 0; // a->dado == n, ou seja, estamos no nó correto
-}
-
-No* busca(No* a, int n){
-    if (!a) return NULL;
-    if (n < a->dado) return busca(a->e, n);
-    if (n > a->dado) return busca(a->d, n);
-    return a; // a->dado == n, ou seja, estamos no nó correto
-}
-
-int quantos_nos(No* a){
-    if (!a) return 0;
-    int nos_e = quantos_nos(a->e);
-    int nos_d = quantos_nos(a->d);
-    return nos_e + nos_d + 1;
 }
 
 void menu(No* a){
@@ -258,8 +192,12 @@ void menu(No* a){
         case 7: 
             puts("\nQue número?");
             scanf("%d", &n);
+            if (esta_na_arvore(a, n))
+                a = remove_no(a, n);
+            scanf("%d", &n);
             if (esta_na_arvore(a, n)){
                 a = remove_no(a, n);
+                puts("Removido!\n");
                 puts("Removido!\n");
             }
             else printf("%d não está na árvore!\n\n", n);
@@ -299,4 +237,66 @@ void menu(No* a){
             break;
         }
     } while (escolha);
+}
+
+int nivel(No* a, int n){
+    if (!a) return -1;
+    if (n < a->dado) return nivel(a->e, n)+1;
+    if (n > a->dado) return nivel(a->d, n)+1;
+    return 0; // a->dado == n, ou seja, estamos no nó correto
+}
+
+int quantos_nos(No* a){
+    if (!a) return 0;
+    int nos_e = quantos_nos(a->e);
+    int nos_d = quantos_nos(a->d);
+    return nos_e + nos_d + 1;
+}
+
+No* remove_no(No* a, int n){
+    if (!a) return NULL;
+
+    // procurando o nó que contem n
+    else if (n < a->dado)
+        a->e = remove_no(a->e, n);
+    else if (n > a->dado)
+        a->d = remove_no(a->d, n);
+
+    else{ // encontramos o nó
+
+        if (!(a->e) && !(a->d)){ // nó sem filhos
+            free(a);
+            a = NULL;
+        }
+
+        else if (!(a->d)){ // apenas filho da esquerda
+            No* aux = a;
+            a = a->e;
+            free(aux);
+        }
+
+        else if (!(a->e)){ // apenas filho da direita
+            No* aux = a;
+            a = a->d;
+            free(aux);
+        }
+
+        else{ // nó tem ambos filhos
+
+            // encontramos o descendente mais a direita do filho a esquerda do nó
+            // ele tem o valor mais alto menor que n na árvore
+            No* aux = a->e;
+            for(; aux->d; aux = aux->d);
+
+            // trocamos os valores dos dois nós de lugar
+            // isso mantem a ordenação quando retirarmos n
+            a->dado = aux->dado;
+            aux->dado = n;
+
+            // chamamos a função novamente
+            // dessa vez, quando encontrarmos n na árvore, ele não terá filhos e a remoção será feita
+            a->e = remove_no(a->e, n); 
+        }
+    }
+    return a;
 }
