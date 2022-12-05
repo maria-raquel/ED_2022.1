@@ -99,7 +99,7 @@ int esta_na_arvore(No* a, int n){
 void imprime_prefix(No* a){ // imprime <raiz sae sad>
     putchar('<');
     if (a){
-        printf("%d ", a->dado); // trata a raiz
+        printf("%d", a->dado); // trata a raiz
         imprime_prefix(a->e); // percorre subarvore a esquerda
         imprime_prefix(a->d); // percorre subarvore a direita
     }
