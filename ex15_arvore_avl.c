@@ -13,16 +13,16 @@ typedef struct No {
 } No;
 
 int altura(No* a);
+No* balanceia(No* a);
 No* cria_arvore(No* a);
+No* rotaciona_direita(No* a);
+No* rotaciona_esquerda(No* a);
 
 No* insere_no(No* a, int n);
 No* remove_no(No* a, int n);
 void imprime_ordenado(No* a);
 void imprime_linearmente(No* a);
 int altura(No* a);
-No* rotaciona_esquerda(No* a);
-No* rotaciona_direita(No* a);
-No* balanceia(No* a);
 
 int main(){
     return 0;
@@ -41,4 +41,20 @@ int altura(No* a){
 
 No* cria_arvore(No* a){
     return NULL;
+}
+
+No* rotaciona_direita(No* a){
+    No* aux = a->e;
+    a->e = aux->d;
+    aux->d = a;
+    a = aux;
+    return a;
+}
+
+No* rotaciona_esquerda(No* a){
+    No* aux = a->d;
+    a->d = aux->e;
+    aux->e = a;
+    a = aux;
+    return a;
 }
