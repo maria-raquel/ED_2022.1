@@ -15,7 +15,10 @@ typedef struct No {
 No* insere_no(No* a, int n);
 No* remove_no(No* a, int n);
 No* cria_arvore(No* a);
+void imprime_ordenado(No* a);
+void imprime_linearmente(No* a);
 
 int main(){
     return 0;
 }
+
