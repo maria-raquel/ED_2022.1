@@ -236,7 +236,7 @@ void menu(No* a){
             puts("\nValor inválido!\n");
             break;
         }
-    } while (escolha);
+    } while (escolha != -1);
 }
 
 int nivel(No* a, int n){
