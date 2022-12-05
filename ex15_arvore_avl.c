@@ -20,12 +20,9 @@ void imprime_ordenado(No* a);
 void imprime_prefix(No* a);
 No* insere_no(No* a, int n);
 void menu(No* a);
+No* remove_no(No* a, int n);
 No* rotaciona_direita(No* a);
 No* rotaciona_esquerda(No* a);
-
-No* remove_no(No* a, int n);
-void imprime_ordenado(No* a);
-int altura(No* a);
 
 int main(){
     No* arvore = cria_arvore();
@@ -117,6 +114,7 @@ void menu(No* a){
         puts("1: inserir um número");
         puts("2: imprimir ordenadamente");
         puts("3: imprimir prefix");
+        puts("4: remover um número");
         puts("-1: encerrar");
         scanf("%d", &escolha);
 
@@ -136,12 +134,55 @@ void menu(No* a){
             imprime_prefix(a);
             printf("\n\n");
             break;
+        case 4:
+            puts("Que número?");
+            scanf("%d", &n);
+            a = remove_no(a, n);
+            break;
         case -1:
             return;
         default:
             break;
         }
     } while (escolha != -1);
+}
+
+No* remove_no(No* a, int n){
+    if (!a) return NULL;
+
+    if (n < a->dado)
+        a->e = remove_no(a->e, n);
+
+    else if (n > a->dado)
+        a->d = remove_no(a->d, n);
+
+    else{
+        if (!(a->e) && !(a->d)){
+            free(a);
+            a = NULL;
+        }
+
+        else if (!(a->d)){
+            No* aux = a;
+            a = a->e;
+            free(aux);
+        }
+
+        else if (!(a->e)){
+            No* aux = a;
+            a = a->d;
+            free(aux);
+        }
+
+        else{
+            No* aux = a->e;
+            for (; aux->d; aux = aux->d);
+            a->dado = aux->dado;
+            aux->dado = n;
+            a->e = remove_no(a->e, n);
+        }
+    }
+    return balanceia(a);
 }
 
 No* rotaciona_direita(No* a){
