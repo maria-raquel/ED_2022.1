@@ -57,7 +57,9 @@ int main(){
 }
 
 int altura(No* a){
-    if (!a) return 0;
+    if (!a) return -1;
+    // ávore vazia tem altura -1
+    // uma raiz sem filhos tem altura 0
 
     int altura_e, altura_d;
     altura_e = altura(a->e);

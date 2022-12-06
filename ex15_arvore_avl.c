@@ -31,7 +31,7 @@ int main(){
 }
 
 int altura(No* a){
-    if (!a) return 0;
+    if (!a) return -1;
 
     int altura_e, altura_d;
     altura_e = altura(a->e);
