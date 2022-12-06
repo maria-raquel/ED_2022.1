@@ -46,7 +46,7 @@ No* balanceia(No* a){
 
     // Considerando que a árvore é verificada a cada inserção e remoção,
     // o fator de balanceamento nunca fica maior que módulo de 2
-    // e o fator de balanceamento dos filhos nunca ficam maior que módulo de 1
+    // e o fator de balanceamento dos filhos nunca fica maior que módulo de 1
 
     if (fb == -2){
         if (fator_de_balanceamento(a->d) == 1) 
@@ -156,7 +156,7 @@ No* remove_no(No* a, int n){
     else if (n > a->dado)
         a->d = remove_no(a->d, n);
 
-    else{
+    else {
         if (!(a->e) && !(a->d)){
             free(a);
             a = NULL;
@@ -174,7 +174,7 @@ No* remove_no(No* a, int n){
             free(aux);
         }
 
-        else{
+        else {
             No* aux = a->e;
             for (; aux->d; aux = aux->d);
             a->dado = aux->dado;
